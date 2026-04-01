@@ -1,5 +1,5 @@
 // === Dados mockados para desenvolvimento ===
-import { Licitacao, EventoCalendario, MetricasDashboard } from '@/types/licitacao';
+import { Licitacao, EventoCalendario, MetricasDashboard, Documento, Contrato, DadosConcorrente } from '@/types/licitacao';
 
 export const LICITACOES_MOCK: Licitacao[] = [
   {
@@ -132,3 +132,107 @@ export const METRICAS_MOCK: MetricasDashboard = {
   pendencias: 5,
   licitacoesEsteMes: 6,
 };
+
+/** Documentos mock com semáforo de validade */
+export const DOCUMENTOS_MOCK: Documento[] = [
+  { id: 'd1', nome: 'Contrato Social - Tech Solutions Ltda', tipo: 'contrato_social', arquivoUrl: '#', tamanhoKb: 2450, dataUpload: '2025-11-10', empresaId: 'emp1', status: 'ativo' },
+  { id: 'd2', nome: 'Balanço Patrimonial 2025', tipo: 'balanco_patrimonial', arquivoUrl: '#', tamanhoKb: 5120, dataUpload: '2026-01-15', empresaId: 'emp1', status: 'ativo' },
+  { id: 'd3', nome: 'CND Federal - Receita Federal', tipo: 'certidao_federal', arquivoUrl: '#', tamanhoKb: 380, dataUpload: '2026-03-01', dataValidade: '2026-08-28', empresaId: 'emp1', status: 'ativo' },
+  { id: 'd4', nome: 'CND Estadual - SEFAZ/SP', tipo: 'certidao_estadual', arquivoUrl: '#', tamanhoKb: 290, dataUpload: '2026-02-20', dataValidade: '2026-04-20', empresaId: 'emp1', status: 'proximo_vencer' },
+  { id: 'd5', nome: 'CND Municipal - Pref. São Paulo', tipo: 'certidao_municipal', arquivoUrl: '#', tamanhoKb: 310, dataUpload: '2026-01-05', dataValidade: '2026-03-05', empresaId: 'emp1', status: 'vencido' },
+  { id: 'd6', nome: 'Certificado FGTS', tipo: 'certidao_fgts', arquivoUrl: '#', tamanhoKb: 250, dataUpload: '2026-03-10', dataValidade: '2026-04-10', empresaId: 'emp1', status: 'proximo_vencer' },
+  { id: 'd7', nome: 'CNDT - Certidão Trabalhista', tipo: 'certidao_trabalhista', arquivoUrl: '#', tamanhoKb: 270, dataUpload: '2026-03-15', dataValidade: '2026-09-11', empresaId: 'emp1', status: 'ativo' },
+  { id: 'd8', nome: 'SICAF - Registro Atualizado', tipo: 'sicaf', arquivoUrl: '#', tamanhoKb: 890, dataUpload: '2026-03-20', empresaId: 'emp1', status: 'ativo' },
+  { id: 'd9', nome: 'Edital PE 045/2026 - Pref. SP', tipo: 'edital', arquivoUrl: '#', tamanhoKb: 15600, dataUpload: '2026-03-20', licitacaoId: '1', empresaId: 'emp1', status: 'ativo' },
+  { id: 'd10', nome: 'TR - Materiais de Escritório', tipo: 'termo_referencia', arquivoUrl: '#', tamanhoKb: 8200, dataUpload: '2026-03-20', licitacaoId: '1', empresaId: 'emp1', status: 'ativo' },
+  { id: 'd11', nome: 'Proposta Comercial PE 012/2026', tipo: 'proposta', arquivoUrl: '#', tamanhoKb: 1200, dataUpload: '2026-03-12', licitacaoId: '2', empresaId: 'emp1', status: 'ativo' },
+];
+
+/** Contratos e Atas SRP mock */
+export const CONTRATOS_MOCK: Contrato[] = [
+  {
+    id: 'c1',
+    licitacaoId: '4',
+    orgao: 'DETRAN-SP',
+    numeroAta: 'ARP 089/2026',
+    objeto: 'Licenças de software antivírus corporativo',
+    valorTotal: 45000,
+    valorUtilizado: 18750,
+    dataInicio: '2026-03-01',
+    dataFim: '2027-02-28',
+    status: 'vigente',
+    empresaId: 'emp1',
+    itens: [
+      { id: 'i1', descricao: 'Licença Antivírus Endpoint - 1 ano', unidade: 'UN', quantidadeTotal: 500, quantidadeUtilizada: 200, precoUnitario: 60 },
+      { id: 'i2', descricao: 'Licença Antivírus Server - 1 ano', unidade: 'UN', quantidadeTotal: 50, quantidadeUtilizada: 25, precoUnitario: 150 },
+    ],
+  },
+  {
+    id: 'c2',
+    licitacaoId: '2',
+    orgao: 'Tribunal Regional do Trabalho - 2ª Região',
+    numeroAta: 'ARP 012/2026',
+    objeto: 'Serviços de limpeza e conservação predial',
+    valorTotal: 1500000,
+    valorUtilizado: 375000,
+    dataInicio: '2026-02-01',
+    dataFim: '2027-01-31',
+    status: 'vigente',
+    empresaId: 'emp1',
+    itens: [
+      { id: 'i3', descricao: 'Servente de Limpeza - 44h semanais', unidade: 'POSTO', quantidadeTotal: 30, quantidadeUtilizada: 30, precoUnitario: 3200 },
+      { id: 'i4', descricao: 'Encarregado de Limpeza - 44h semanais', unidade: 'POSTO', quantidadeTotal: 5, quantidadeUtilizada: 5, precoUnitario: 4500 },
+      { id: 'i5', descricao: 'Material de Limpeza - Kit Mensal', unidade: 'KIT', quantidadeTotal: 12, quantidadeUtilizada: 3, precoUnitario: 2800 },
+    ],
+  },
+  {
+    id: 'c3',
+    licitacaoId: '6',
+    orgao: 'Universidade Federal de Minas Gerais',
+    numeroAta: 'ARP 021/2025',
+    objeto: 'Fornecimento de mobiliário escolar',
+    valorTotal: 680000,
+    valorUtilizado: 680000,
+    dataInicio: '2025-06-01',
+    dataFim: '2026-05-31',
+    status: 'encerrada',
+    empresaId: 'emp1',
+    itens: [
+      { id: 'i6', descricao: 'Carteira Universitária Padrão MEC', unidade: 'UN', quantidadeTotal: 2000, quantidadeUtilizada: 2000, precoUnitario: 280 },
+      { id: 'i7', descricao: 'Mesa Professor com Gaveta', unidade: 'UN', quantidadeTotal: 100, quantidadeUtilizada: 100, precoUnitario: 1200 },
+    ],
+  },
+];
+
+/** Dados de concorrentes para analytics */
+export const CONCORRENTES_MOCK: DadosConcorrente[] = [
+  { empresa: 'Alpha Comércio Ltda', vitorias: 12, derrotas: 5, valorMedioDesagio: 15.3 },
+  { empresa: 'Beta Serviços S.A.', vitorias: 8, derrotas: 10, valorMedioDesagio: 12.1 },
+  { empresa: 'Gamma Distribuição', vitorias: 6, derrotas: 8, valorMedioDesagio: 18.7 },
+  { empresa: 'Delta Tecnologia', vitorias: 4, derrotas: 3, valorMedioDesagio: 9.4 },
+  { empresa: 'Epsilon Facilities', vitorias: 3, derrotas: 6, valorMedioDesagio: 22.0 },
+];
+
+/** Órgãos para autocompletar */
+export const ORGAOS_SUGESTAO = [
+  'Prefeitura Municipal de São Paulo',
+  'Prefeitura Municipal de Campinas',
+  'Prefeitura Municipal de Belo Horizonte',
+  'Prefeitura Municipal do Rio de Janeiro',
+  'Tribunal Regional do Trabalho - 2ª Região',
+  'Tribunal Regional Federal - 3ª Região',
+  'Ministério da Saúde',
+  'Ministério da Educação',
+  'Ministério da Defesa',
+  'DETRAN-SP',
+  'DETRAN-MG',
+  'Câmara Municipal de Campinas',
+  'Câmara dos Deputados',
+  'Universidade Federal de Minas Gerais',
+  'Universidade de São Paulo',
+  'INSS - Instituto Nacional do Seguro Social',
+  'Banco Central do Brasil',
+  'Correios - ECT',
+  'Petrobras S.A.',
+  'BNDES',
+];

@@ -114,3 +114,89 @@ export const PORTAL_LABELS: Record<PortalDisputa, string> = {
   bll: 'BLL',
   outro: 'Outro',
 };
+
+/** Tipo de documento */
+export type TipoDocumento =
+  | 'edital'
+  | 'termo_referencia'
+  | 'contrato_social'
+  | 'balanco_patrimonial'
+  | 'certidao_federal'
+  | 'certidao_estadual'
+  | 'certidao_municipal'
+  | 'certidao_fgts'
+  | 'certidao_trabalhista'
+  | 'sicaf'
+  | 'proposta'
+  | 'outro';
+
+/** Labels dos documentos */
+export const TIPO_DOCUMENTO_LABELS: Record<TipoDocumento, string> = {
+  edital: 'Edital',
+  termo_referencia: 'Termo de Referência',
+  contrato_social: 'Contrato Social',
+  balanco_patrimonial: 'Balanço Patrimonial',
+  certidao_federal: 'CND Federal',
+  certidao_estadual: 'CND Estadual',
+  certidao_municipal: 'CND Municipal',
+  certidao_fgts: 'Certidão FGTS',
+  certidao_trabalhista: 'Certidão Trabalhista',
+  sicaf: 'SICAF',
+  proposta: 'Proposta Comercial',
+  outro: 'Outro',
+};
+
+/** Documento da empresa */
+export interface Documento {
+  id: string;
+  nome: string;
+  tipo: TipoDocumento;
+  arquivoUrl: string;
+  tamanhoKb: number;
+  dataUpload: string;
+  dataValidade?: string;
+  licitacaoId?: string;
+  empresaId: string;
+  status: 'ativo' | 'vencido' | 'proximo_vencer';
+}
+
+/** Item de Ata SRP */
+export interface ItemAta {
+  id: string;
+  descricao: string;
+  unidade: string;
+  quantidadeTotal: number;
+  quantidadeUtilizada: number;
+  precoUnitario: number;
+}
+
+/** Contrato / Ata de Registro de Preços */
+export interface Contrato {
+  id: string;
+  licitacaoId: string;
+  orgao: string;
+  numeroAta: string;
+  objeto: string;
+  valorTotal: number;
+  valorUtilizado: number;
+  dataInicio: string;
+  dataFim: string;
+  status: 'vigente' | 'vencida' | 'encerrada';
+  itens: ItemAta[];
+  empresaId: string;
+}
+
+/** Dados de concorrente para analytics */
+export interface DadosConcorrente {
+  empresa: string;
+  vitorias: number;
+  derrotas: number;
+  valorMedioDesagio: number;
+}
+
+/** Labels de modo de disputa */
+export const MODO_DISPUTA_LABELS: Record<ModoDisputa, string> = {
+  aberto: 'Aberto',
+  fechado: 'Fechado',
+  aberto_fechado: 'Aberto/Fechado',
+};
