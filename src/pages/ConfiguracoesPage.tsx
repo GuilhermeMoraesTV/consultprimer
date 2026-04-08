@@ -253,7 +253,7 @@ export default function ConfiguracoesPage() {
                 <h3 className="text-lg font-bold text-foreground">Integrações</h3>
               </div>
               <p className="text-sm text-muted-foreground mb-5">
-                Conecte o LicitaMax com seus sistemas para automatizar o fluxo de trabalho.
+                Conecte o ConsultPrimer com seus sistemas para automatizar o fluxo de trabalho.
               </p>
 
               <div className="space-y-3">
