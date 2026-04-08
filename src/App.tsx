@@ -3,6 +3,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
+import LoginPage from "./pages/LoginPage";
 import Index from "./pages/Index.tsx";
 import KanbanPage from "./pages/KanbanPage.tsx";
 import AgendaPage from "./pages/AgendaPage.tsx";
@@ -21,17 +24,20 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/kanban" element={<KanbanPage />} />
-          <Route path="/agenda" element={<AgendaPage />} />
-          <Route path="/licitacoes" element={<LicitacoesPage />} />
-          <Route path="/documentos" element={<DocumentosPage />} />
-          <Route path="/contratos" element={<ContratosPage />} />
-          <Route path="/analytics" element={<AnalyticsPage />} />
-          <Route path="/configuracoes" element={<ConfiguracoesPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
+            <Route path="/kanban" element={<ProtectedRoute><KanbanPage /></ProtectedRoute>} />
+            <Route path="/agenda" element={<ProtectedRoute><AgendaPage /></ProtectedRoute>} />
+            <Route path="/licitacoes" element={<ProtectedRoute><LicitacoesPage /></ProtectedRoute>} />
+            <Route path="/documentos" element={<ProtectedRoute><DocumentosPage /></ProtectedRoute>} />
+            <Route path="/contratos" element={<ProtectedRoute><ContratosPage /></ProtectedRoute>} />
+            <Route path="/analytics" element={<ProtectedRoute><AnalyticsPage /></ProtectedRoute>} />
+            <Route path="/configuracoes" element={<ProtectedRoute><ConfiguracoesPage /></ProtectedRoute>} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
