@@ -23,6 +23,7 @@ interface AppLayoutProps {
 
 export function AppLayout({ children, titulo, subtitulo }: AppLayoutProps) {
   const { user, signOut } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
