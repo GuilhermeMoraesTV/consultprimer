@@ -290,7 +290,7 @@ export default function ConfiguracoesPage() {
                   Use a API REST para integrar o ConsultPrimer com seu ERP. Webhooks disparam automaticamente ao marcar uma licitação como "Ganha".
                 </p>
                 <div className="flex items-center gap-2">
-                  <Input value="https://api.licitamax.com/webhook/v1/emp1" disabled className="bg-muted text-xs font-mono" />
+                  <Input value="https://api.consultprimer.com/webhook/v1/emp1" disabled className="bg-muted text-xs font-mono" />
                   <Button size="sm" variant="outline">Copiar</Button>
                 </div>
               </div>

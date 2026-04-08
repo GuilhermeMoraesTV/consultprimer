@@ -52,7 +52,7 @@ export function AppSidebar() {
         </div>
         {!collapsed && (
           <span className="font-bold text-lg text-sidebar-primary-foreground tracking-tight">
-            LicitaMax
+            ConsultPrimer
           </span>
         )}
       </div>
