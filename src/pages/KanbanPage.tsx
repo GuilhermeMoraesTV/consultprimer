@@ -158,13 +158,6 @@ export default function KanbanPage() {
         </DragOverlay>
       </DndContext>
 
-      {/* Modal Nova Licitação */}
-      <NovaLicitacaoModal
-        open={novaModalOpen}
-        onOpenChange={setNovaModalOpen}
-        onSalvar={criarLicitacao}
-      />
-
       {/* Modal Detalhes */}
       <LicitacaoDetailModal
         licitacao={detailLicitacao}
