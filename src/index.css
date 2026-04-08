@@ -77,6 +77,48 @@
     --kanban-recurso: 145 100% 97%;
   }
 
+  .dark {
+    --background: 220 20% 10%;
+    --foreground: 220 10% 90%;
+
+    --card: 220 20% 14%;
+    --card-foreground: 220 10% 90%;
+
+    --popover: 220 20% 14%;
+    --popover-foreground: 220 10% 90%;
+
+    --primary: 215 75% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 215 75% 48%;
+    --primary-light: 215 40% 20%;
+
+    --secondary: 220 14% 20%;
+    --secondary-foreground: 220 10% 80%;
+
+    --muted: 220 14% 20%;
+    --muted-foreground: 220 10% 55%;
+
+    --accent: 38 80% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 22%;
+    --input: 220 15% 22%;
+    --ring: 215 75% 55%;
+
+    --sidebar-background: 220 25% 8%;
+    --sidebar-foreground: 220 10% 80%;
+    --sidebar-primary: 215 75% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 25% 16%;
+    --sidebar-accent-foreground: 220 10% 90%;
+    --sidebar-border: 220 20% 18%;
+    --sidebar-ring: 215 75% 55%;
+    --sidebar-muted: 220 15% 18%;
+  }
+
   * {
     @apply border-border;
   }
