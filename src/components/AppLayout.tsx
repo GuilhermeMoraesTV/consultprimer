@@ -2,8 +2,17 @@
 // Wrapper com sidebar e área de conteúdo
 
 import { ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppSidebar } from './AppSidebar';
-import { Bell, Search, User } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { Bell, Search, User, LogOut } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface AppLayoutProps {
   children: ReactNode;
