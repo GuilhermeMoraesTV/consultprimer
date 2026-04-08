@@ -54,6 +54,7 @@ export function NovaLicitacaoModal({ open, onOpenChange, onSalvar }: NovaLicitac
       orgaoComprador: '', modalidade: '', numeroEdital: '', objeto: '',
       dataLicitacao: '', horaLicitacao: '09:00', modoDisputa: '',
       valorReferencia: '', portalDisputa: '', linkAcesso: '', observacoes: '',
+      colunaKanban: 'captacao' as ColunaKanban,
     });
     setStep(1);
   };
