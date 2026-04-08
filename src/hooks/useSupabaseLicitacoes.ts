@@ -101,6 +101,7 @@ export function useSupabaseLicitacoes() {
     portalDisputa?: PortalDisputa;
     linkAcesso?: string;
     observacoes?: string;
+    colunaKanban?: ColunaKanban;
   }) => {
     if (!user) return null;
 
