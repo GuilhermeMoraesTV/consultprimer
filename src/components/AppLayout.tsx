@@ -48,15 +48,6 @@ export function AppLayout({ children, titulo, subtitulo }: AppLayoutProps) {
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Busca rápida */}
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary text-muted-foreground text-sm cursor-pointer hover:bg-secondary/80 transition-colors">
-              <Search className="w-4 h-4" />
-              <span>Buscar...</span>
-              <kbd className="hidden md:inline-flex h-5 items-center gap-1 rounded border border-border bg-muted px-1.5 text-[10px] font-medium text-muted-foreground">
-                ⌘K
-              </kbd>
-            </div>
-
             {/* Tema */}
             <button
               onClick={toggleTheme}
@@ -71,10 +62,7 @@ export function AppLayout({ children, titulo, subtitulo }: AppLayoutProps) {
             </button>
 
             {/* Notificações */}
-            <button className="relative p-2 rounded-lg hover:bg-secondary transition-colors">
-              <Bell className="w-5 h-5 text-muted-foreground" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-status-pendente rounded-full" />
-            </button>
+            <NotificacoesDropdown />
 
             {/* Avatar do usuário com dropdown */}
             <DropdownMenu>
