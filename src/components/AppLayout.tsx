@@ -21,6 +21,14 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children, titulo, subtitulo }: AppLayoutProps) {
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/login');
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <AppSidebar />
