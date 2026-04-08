@@ -287,7 +287,7 @@ export default function ConfiguracoesPage() {
                   <h4 className="text-sm font-bold text-foreground">API & Webhooks</h4>
                 </div>
                 <p className="text-xs text-muted-foreground mb-3">
-                  Use a API REST para integrar o LicitaMax com seu ERP. Webhooks disparam automaticamente ao marcar uma licitação como "Ganha".
+                  Use a API REST para integrar o ConsultPrimer com seu ERP. Webhooks disparam automaticamente ao marcar uma licitação como "Ganha".
                 </p>
                 <div className="flex items-center gap-2">
                   <Input value="https://api.licitamax.com/webhook/v1/emp1" disabled className="bg-muted text-xs font-mono" />
