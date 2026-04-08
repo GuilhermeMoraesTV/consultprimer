@@ -60,12 +60,28 @@ export function AppLayout({ children, titulo, subtitulo }: AppLayoutProps) {
               <span className="absolute top-1 right-1 w-2 h-2 bg-status-pendente rounded-full" />
             </button>
 
-            {/* Avatar do usuário */}
-            <button className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-secondary transition-colors">
-              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-                <User className="w-4 h-4 text-primary-foreground" />
-              </div>
-            </button>
+            {/* Avatar do usuário com dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-secondary transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                    <User className="w-4 h-4 text-primary-foreground" />
+                  </div>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <div className="px-2 py-1.5">
+                  <p className="text-sm font-medium text-foreground truncate">
+                    {user?.email ?? 'Usuário'}
+                  </p>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive cursor-pointer">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Sair
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </header>
 
