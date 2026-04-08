@@ -84,9 +84,8 @@ function KanbanColumn({ coluna, licitacoes, onCardClick }: { coluna: ColunaKanba
 }
 
 export default function KanbanPage() {
-  const { licitacoes, loading, moverColuna, criarLicitacao, atualizarLicitacao } = useSupabaseLicitacoes();
+  const { licitacoes, loading, moverColuna, atualizarLicitacao } = useSupabaseLicitacoes();
   const [activeLicitacao, setActiveLicitacao] = useState<Licitacao | null>(null);
-  const [novaModalOpen, setNovaModalOpen] = useState(false);
   const [detailLicitacao, setDetailLicitacao] = useState<Licitacao | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
 
