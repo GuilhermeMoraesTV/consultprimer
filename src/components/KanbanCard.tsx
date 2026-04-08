@@ -9,9 +9,10 @@ import { cn } from '@/lib/utils';
 
 interface KanbanCardProps {
   licitacao: Licitacao;
+  onClick?: () => void;
 }
 
-export function KanbanCard({ licitacao }: KanbanCardProps) {
+export function KanbanCard({ licitacao, onClick }: KanbanCardProps) {
   const {
     attributes,
     listeners,
@@ -33,6 +34,7 @@ export function KanbanCard({ licitacao }: KanbanCardProps) {
     <div
       ref={setNodeRef}
       style={style}
+      onClick={onClick}
       className={cn(
         'bg-card rounded-lg border border-border p-3.5 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing animate-fade-in group',
         isDragging && 'opacity-50 shadow-lg rotate-2',

@@ -18,9 +18,11 @@ import {
 import { useDroppable } from '@dnd-kit/core';
 import { AppLayout } from '@/components/AppLayout';
 import { KanbanCard } from '@/components/KanbanCard';
-import { LICITACOES_MOCK } from '@/data/mockData';
+import { NovaLicitacaoModal } from '@/components/NovaLicitacaoModal';
+import { LicitacaoDetailModal } from '@/components/LicitacaoDetailModal';
+import { useSupabaseLicitacoes } from '@/hooks/useSupabaseLicitacoes';
 import { ColunaKanban, COLUNA_LABELS, Licitacao } from '@/types/licitacao';
-import { Plus } from 'lucide-react';
+import { Plus, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
@@ -45,7 +47,7 @@ const COLUNA_INDICATOR: Record<ColunaKanban, string> = {
 const COLUNAS: ColunaKanban[] = ['captacao', 'analise', 'montagem', 'pregao', 'recurso'];
 
 /** Componente de coluna droppable */
-function KanbanColumn({ coluna, licitacoes }: { coluna: ColunaKanban; licitacoes: Licitacao[] }) {
+function KanbanColumn({ coluna, licitacoes, onCardClick }: { coluna: ColunaKanban; licitacoes: Licitacao[]; onCardClick: (lic: Licitacao) => void }) {
   const { setNodeRef, isOver } = useDroppable({ id: coluna });
 
   return (
@@ -69,16 +71,13 @@ function KanbanColumn({ coluna, licitacoes }: { coluna: ColunaKanban; licitacoes
             {licitacoes.length}
           </span>
         </div>
-        <button className="p-1 rounded hover:bg-muted transition-colors">
-          <Plus className="w-4 h-4 text-muted-foreground" />
-        </button>
       </div>
 
       {/* Cards */}
       <div ref={setNodeRef} className="flex-1 px-2 pb-2 space-y-2 min-h-[200px] overflow-y-auto">
         <SortableContext items={licitacoes.map((l) => l.id)} strategy={verticalListSortingStrategy}>
           {licitacoes.map((lic) => (
-            <KanbanCard key={lic.id} licitacao={lic} />
+            <KanbanCard key={lic.id} licitacao={lic} onClick={() => onCardClick(lic)} />
           ))}
         </SortableContext>
       </div>
@@ -87,49 +86,42 @@ function KanbanColumn({ coluna, licitacoes }: { coluna: ColunaKanban; licitacoes
 }
 
 export default function KanbanPage() {
-  const [licitacoes, setLicitacoes] = useState<Licitacao[]>(LICITACOES_MOCK);
+  const { licitacoes, loading, moverColuna, criarLicitacao, atualizarLicitacao } = useSupabaseLicitacoes();
   const [activeLicitacao, setActiveLicitacao] = useState<Licitacao | null>(null);
+  const [novaModalOpen, setNovaModalOpen] = useState(false);
+  const [detailLicitacao, setDetailLicitacao] = useState<Licitacao | null>(null);
+  const [detailOpen, setDetailOpen] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
     useSensor(KeyboardSensor)
   );
 
-  /** Ao iniciar o arraste */
   const handleDragStart = (event: DragStartEvent) => {
     const found = licitacoes.find((l) => l.id === event.active.id);
     setActiveLicitacao(found || null);
   };
 
-  /** Ao soltar o card em uma nova coluna */
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     setActiveLicitacao(null);
     if (!over) return;
 
     const overId = String(over.id);
-    // Verificar se soltou sobre uma coluna
     const colunaDestino = COLUNAS.includes(overId as ColunaKanban)
       ? (overId as ColunaKanban)
       : licitacoes.find((l) => l.id === overId)?.colunaKanban;
 
     if (!colunaDestino) return;
 
-    // Trava: não pode ir para "pregao" sem checklist completo
-    const lic = licitacoes.find((l) => l.id === active.id);
-    if (colunaDestino === 'pregao' && lic && !lic.checklistCompleto) {
-      // Toast de alerta seria ideal aqui
-      return;
-    }
-
-    setLicitacoes((prev) =>
-      prev.map((l) =>
-        l.id === active.id ? { ...l, colunaKanban: colunaDestino } : l
-      )
-    );
+    await moverColuna(String(active.id), colunaDestino);
   };
 
-  /** Agrupar licitações por coluna */
+  const handleCardClick = (lic: Licitacao) => {
+    setDetailLicitacao(lic);
+    setDetailOpen(true);
+  };
+
   const porColuna = (coluna: ColunaKanban) =>
     licitacoes.filter((l) => l.colunaKanban === coluna);
 
@@ -138,13 +130,17 @@ export default function KanbanPage() {
       {/* Ações superiores */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Button variant="default" size="sm" className="gap-1.5">
+          <Button variant="default" size="sm" className="gap-1.5" onClick={() => setNovaModalOpen(true)}>
             <Plus className="w-4 h-4" />
             Nova Licitação
           </Button>
         </div>
         <p className="text-xs text-muted-foreground">
-          {licitacoes.length} licitações no funil
+          {loading ? (
+            <span className="flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin" /> Carregando...</span>
+          ) : (
+            `${licitacoes.length} licitações no funil`
+          )}
         </p>
       </div>
 
@@ -161,6 +157,7 @@ export default function KanbanPage() {
               key={coluna}
               coluna={coluna}
               licitacoes={porColuna(coluna)}
+              onCardClick={handleCardClick}
             />
           ))}
         </div>
@@ -169,6 +166,22 @@ export default function KanbanPage() {
           {activeLicitacao && <KanbanCard licitacao={activeLicitacao} />}
         </DragOverlay>
       </DndContext>
+
+      {/* Modal Nova Licitação */}
+      <NovaLicitacaoModal
+        open={novaModalOpen}
+        onOpenChange={setNovaModalOpen}
+        onSalvar={criarLicitacao}
+      />
+
+      {/* Modal Detalhes */}
+      <LicitacaoDetailModal
+        licitacao={detailLicitacao}
+        open={detailOpen}
+        onOpenChange={setDetailOpen}
+        onAtualizar={atualizarLicitacao}
+        onMoverColuna={moverColuna}
+      />
     </AppLayout>
   );
 }
