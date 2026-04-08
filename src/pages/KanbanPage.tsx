@@ -18,11 +18,10 @@ import {
 import { useDroppable } from '@dnd-kit/core';
 import { AppLayout } from '@/components/AppLayout';
 import { KanbanCard } from '@/components/KanbanCard';
-import { NovaLicitacaoModal } from '@/components/NovaLicitacaoModal';
 import { LicitacaoDetailModal } from '@/components/LicitacaoDetailModal';
 import { useSupabaseLicitacoes } from '@/hooks/useSupabaseLicitacoes';
 import { ColunaKanban, COLUNA_LABELS, Licitacao } from '@/types/licitacao';
-import { Plus, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
