@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MODALIDADE_LABELS, PORTAL_LABELS, MODO_DISPUTA_LABELS, ModalidadeLicitacao, PortalDisputa, ModoDisputa } from '@/types/licitacao';
+import { MODALIDADE_LABELS, PORTAL_LABELS, MODO_DISPUTA_LABELS, COLUNA_LABELS, ModalidadeLicitacao, PortalDisputa, ModoDisputa, ColunaKanban } from '@/types/licitacao';
 import { ORGAOS_SUGESTAO } from '@/data/mockData';
 import { Sparkles, Building2, FileText, Calendar, DollarSign, Globe, LinkIcon, MessageSquare } from 'lucide-react';
 import { cn } from '@/lib/utils';
