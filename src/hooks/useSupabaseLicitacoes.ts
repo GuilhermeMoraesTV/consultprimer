@@ -148,7 +148,7 @@ export function useSupabaseLicitacoes() {
   const atualizarLicitacao = async (id: string, campos: Record<string, any>) => {
     const { error } = await supabase
       .from('licitacoes')
-      .update(campos)
+      .update(campos as any)
       .eq('id', id);
 
     if (error) {
