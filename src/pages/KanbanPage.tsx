@@ -18,13 +18,11 @@ import {
 import { useDroppable } from '@dnd-kit/core';
 import { AppLayout } from '@/components/AppLayout';
 import { KanbanCard } from '@/components/KanbanCard';
-import { NovaLicitacaoModal } from '@/components/NovaLicitacaoModal';
 import { LicitacaoDetailModal } from '@/components/LicitacaoDetailModal';
 import { useSupabaseLicitacoes } from '@/hooks/useSupabaseLicitacoes';
 import { ColunaKanban, COLUNA_LABELS, Licitacao } from '@/types/licitacao';
-import { Plus, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
 
 /** Cores de fundo por coluna */
 const COLUNA_BG: Record<ColunaKanban, string> = {
@@ -86,9 +84,8 @@ function KanbanColumn({ coluna, licitacoes, onCardClick }: { coluna: ColunaKanba
 }
 
 export default function KanbanPage() {
-  const { licitacoes, loading, moverColuna, criarLicitacao, atualizarLicitacao } = useSupabaseLicitacoes();
+  const { licitacoes, loading, moverColuna, atualizarLicitacao } = useSupabaseLicitacoes();
   const [activeLicitacao, setActiveLicitacao] = useState<Licitacao | null>(null);
-  const [novaModalOpen, setNovaModalOpen] = useState(false);
   const [detailLicitacao, setDetailLicitacao] = useState<Licitacao | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
 
@@ -127,14 +124,8 @@ export default function KanbanPage() {
 
   return (
     <AppLayout titulo="Kanban de Licitações" subtitulo="Arraste os cards entre as colunas para atualizar o funil">
-      {/* Ações superiores */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <Button variant="default" size="sm" className="gap-1.5" onClick={() => setNovaModalOpen(true)}>
-            <Plus className="w-4 h-4" />
-            Nova Licitação
-          </Button>
-        </div>
+      {/* Info superior */}
+      <div className="flex items-center justify-end mb-4">
         <p className="text-xs text-muted-foreground">
           {loading ? (
             <span className="flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin" /> Carregando...</span>
@@ -166,13 +157,6 @@ export default function KanbanPage() {
           {activeLicitacao && <KanbanCard licitacao={activeLicitacao} />}
         </DragOverlay>
       </DndContext>
-
-      {/* Modal Nova Licitação */}
-      <NovaLicitacaoModal
-        open={novaModalOpen}
-        onOpenChange={setNovaModalOpen}
-        onSalvar={criarLicitacao}
-      />
 
       {/* Modal Detalhes */}
       <LicitacaoDetailModal

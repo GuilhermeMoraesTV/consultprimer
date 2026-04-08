@@ -7,9 +7,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MODALIDADE_LABELS, PORTAL_LABELS, MODO_DISPUTA_LABELS, ModalidadeLicitacao, PortalDisputa, ModoDisputa } from '@/types/licitacao';
+import { MODALIDADE_LABELS, PORTAL_LABELS, MODO_DISPUTA_LABELS, COLUNA_LABELS, ModalidadeLicitacao, PortalDisputa, ModoDisputa, ColunaKanban } from '@/types/licitacao';
 import { ORGAOS_SUGESTAO } from '@/data/mockData';
-import { Sparkles, Building2, FileText, Calendar, DollarSign, Globe, LinkIcon, MessageSquare } from 'lucide-react';
+import { Sparkles, Building2, FileText, Calendar, DollarSign, Globe, LinkIcon, MessageSquare, Columns } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface NovaLicitacaoModalProps {
@@ -33,6 +33,7 @@ export function NovaLicitacaoModal({ open, onOpenChange, onSalvar }: NovaLicitac
     portalDisputa: '' as PortalDisputa | '',
     linkAcesso: '',
     observacoes: '',
+    colunaKanban: 'captacao' as ColunaKanban,
   });
   const [orgaoSugestoes, setOrgaoSugestoes] = useState<string[]>([]);
   const [showSugestoes, setShowSugestoes] = useState(false);
@@ -53,6 +54,7 @@ export function NovaLicitacaoModal({ open, onOpenChange, onSalvar }: NovaLicitac
       orgaoComprador: '', modalidade: '', numeroEdital: '', objeto: '',
       dataLicitacao: '', horaLicitacao: '09:00', modoDisputa: '',
       valorReferencia: '', portalDisputa: '', linkAcesso: '', observacoes: '',
+      colunaKanban: 'captacao' as ColunaKanban,
     });
     setStep(1);
   };
@@ -262,6 +264,22 @@ export function NovaLicitacaoModal({ open, onOpenChange, onSalvar }: NovaLicitac
                   placeholder="Notas internas sobre esta licitação..."
                   rows={2}
                 />
+              </div>
+
+              {/* Coluna Kanban */}
+              <div className="space-y-2">
+                <Label className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  <Columns className="w-3.5 h-3.5" /> Etapa no Kanban
+                </Label>
+                <Select value={form.colunaKanban} onValueChange={(v) => setForm(prev => ({ ...prev, colunaKanban: v as ColunaKanban }))}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {Object.entries(COLUNA_LABELS).map(([k, v]) => (
+                      <SelectItem key={k} value={k}>{v}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-[10px] text-muted-foreground">Se não selecionado, será atribuída à coluna "Captação"</p>
               </div>
             </>
           )}

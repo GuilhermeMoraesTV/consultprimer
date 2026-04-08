@@ -15,6 +15,7 @@ import DocumentosPage from "./pages/DocumentosPage.tsx";
 import ContratosPage from "./pages/ContratosPage.tsx";
 import AnalyticsPage from "./pages/AnalyticsPage.tsx";
 import ConfiguracoesPage from "./pages/ConfiguracoesPage.tsx";
+import CadastrosPage from "./pages/CadastrosPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
             <Routes>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
+              <Route path="/cadastros" element={<ProtectedRoute><CadastrosPage /></ProtectedRoute>} />
               <Route path="/kanban" element={<ProtectedRoute><KanbanPage /></ProtectedRoute>} />
               <Route path="/agenda" element={<ProtectedRoute><AgendaPage /></ProtectedRoute>} />
               <Route path="/licitacoes" element={<ProtectedRoute><LicitacoesPage /></ProtectedRoute>} />
