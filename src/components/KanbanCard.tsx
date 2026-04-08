@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 
 interface KanbanCardProps {
   licitacao: Licitacao;
+  onClick?: () => void;
 }
 
 export function KanbanCard({ licitacao }: KanbanCardProps) {
