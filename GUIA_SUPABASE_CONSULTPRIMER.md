@@ -1,6 +1,6 @@
-# 🏛️ LicitaMax — Guia Completo de Configuração com Supabase
+# 🏛️ ConsultPrimer — Guia Completo de Configuração com Supabase
 
-> Passo a passo detalhado para conectar o LicitaMax ao Supabase e ter autenticação, banco de dados, storage e multi-tenant funcionando.
+> Passo a passo detalhado para conectar o ConsultPrimer ao Supabase e ter autenticação, banco de dados, storage e multi-tenant funcionando.
 
 ---
 
@@ -28,7 +28,7 @@
 1. Acesse [https://supabase.com](https://supabase.com) e crie uma conta (ou faça login)
 2. Clique em **"New Project"**
 3. Preencha:
-   - **Name**: `licitamax`
+   - **Name**: `consultprimer`
    - **Database Password**: anote essa senha em local seguro (você vai precisar)
    - **Region**: `South America (São Paulo)` — para menor latência no Brasil
 4. Clique em **"Create new project"** e aguarde ~2 minutos
@@ -600,9 +600,9 @@ INSERT INTO public.empresas (id, cnpj, razao_social, nome_fantasia, email_contat
 VALUES (
   'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
   '12.345.678/0001-90',
-  'Assessoria LicitaMax Ltda',
-  'LicitaMax',
-  'contato@licitamax.com.br'
+  'Assessoria ConsultPrimer Ltda',
+  'ConsultPrimer',
+  'contato@consultprimer.com.br'
 );
 ```
 
@@ -702,6 +702,6 @@ Execute no SQL Editor **nesta ordem exata**:
 
 ---
 
-> **LicitaMax** — Gestão inteligente de licitações públicas 🏛️
+> **ConsultPrimer** — Gestão inteligente de licitações públicas 🏛️
 > 
 > Em caso de dúvidas, consulte a [documentação oficial do Supabase](https://supabase.com/docs).

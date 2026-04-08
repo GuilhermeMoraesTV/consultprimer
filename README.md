@@ -1,4 +1,4 @@
-# 🏛️ LicitaMax — Sistema de Gestão de Licitações
+# 🏛️ ConsultPrimer — Sistema de Gestão de Licitações
 
 > Plataforma profissional para assessoria e gestão completa de licitações públicas, baseada na **Lei 14.133/21 (Nova Lei de Licitações)**.
 
@@ -259,4 +259,4 @@ CREATE TRIGGER on_auth_user_created AFTER INSERT ON auth.users FOR EACH ROW EXEC
 
 ---
 
-> **LicitaMax** — Gestão inteligente de licitações públicas 🏛️
+> **ConsultPrimer** — Gestão inteligente de licitações públicas 🏛️

@@ -253,7 +253,7 @@ export default function ConfiguracoesPage() {
                 <h3 className="text-lg font-bold text-foreground">Integrações</h3>
               </div>
               <p className="text-sm text-muted-foreground mb-5">
-                Conecte o LicitaMax com seus sistemas para automatizar o fluxo de trabalho.
+                Conecte o ConsultPrimer com seus sistemas para automatizar o fluxo de trabalho.
               </p>
 
               <div className="space-y-3">
@@ -287,10 +287,10 @@ export default function ConfiguracoesPage() {
                   <h4 className="text-sm font-bold text-foreground">API & Webhooks</h4>
                 </div>
                 <p className="text-xs text-muted-foreground mb-3">
-                  Use a API REST para integrar o LicitaMax com seu ERP. Webhooks disparam automaticamente ao marcar uma licitação como "Ganha".
+                  Use a API REST para integrar o ConsultPrimer com seu ERP. Webhooks disparam automaticamente ao marcar uma licitação como "Ganha".
                 </p>
                 <div className="flex items-center gap-2">
-                  <Input value="https://api.licitamax.com/webhook/v1/emp1" disabled className="bg-muted text-xs font-mono" />
+                  <Input value="https://api.consultprimer.com/webhook/v1/emp1" disabled className="bg-muted text-xs font-mono" />
                   <Button size="sm" variant="outline">Copiar</Button>
                 </div>
               </div>

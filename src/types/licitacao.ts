@@ -1,4 +1,4 @@
-// === Tipos do sistema LicitaMax ===
+// === Tipos do sistema ConsultPrimer ===
 // Todos os tipos e interfaces centralizados
 
 /** Status possíveis de uma licitação */
