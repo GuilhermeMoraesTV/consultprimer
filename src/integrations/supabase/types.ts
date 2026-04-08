@@ -130,33 +130,84 @@ export type Database = {
       }
       empresas: {
         Row: {
+          agencia: string | null
           ativo: boolean | null
+          banco: string | null
+          bloco_assinatura: Json | null
+          cabecalho_proposta: Json | null
+          chave_pix: string | null
           cnpj: string
+          conta: string | null
           criado_em: string | null
           email_contato: string | null
+          endereco_bairro: string | null
+          endereco_cep: string | null
+          endereco_cidade: string | null
+          endereco_estado: string | null
+          endereco_numero: string | null
+          endereco_rua: string | null
           id: string
+          inscricao_estadual: string | null
+          inscricao_municipal: string | null
+          logo_url: string | null
           nome_fantasia: string | null
           razao_social: string
+          regime_tributario: string | null
+          socio_responsavel: string | null
           telefone: string | null
         }
         Insert: {
+          agencia?: string | null
           ativo?: boolean | null
+          banco?: string | null
+          bloco_assinatura?: Json | null
+          cabecalho_proposta?: Json | null
+          chave_pix?: string | null
           cnpj: string
+          conta?: string | null
           criado_em?: string | null
           email_contato?: string | null
+          endereco_bairro?: string | null
+          endereco_cep?: string | null
+          endereco_cidade?: string | null
+          endereco_estado?: string | null
+          endereco_numero?: string | null
+          endereco_rua?: string | null
           id?: string
+          inscricao_estadual?: string | null
+          inscricao_municipal?: string | null
+          logo_url?: string | null
           nome_fantasia?: string | null
           razao_social: string
+          regime_tributario?: string | null
+          socio_responsavel?: string | null
           telefone?: string | null
         }
         Update: {
+          agencia?: string | null
           ativo?: boolean | null
+          banco?: string | null
+          bloco_assinatura?: Json | null
+          cabecalho_proposta?: Json | null
+          chave_pix?: string | null
           cnpj?: string
+          conta?: string | null
           criado_em?: string | null
           email_contato?: string | null
+          endereco_bairro?: string | null
+          endereco_cep?: string | null
+          endereco_cidade?: string | null
+          endereco_estado?: string | null
+          endereco_numero?: string | null
+          endereco_rua?: string | null
           id?: string
+          inscricao_estadual?: string | null
+          inscricao_municipal?: string | null
+          logo_url?: string | null
           nome_fantasia?: string | null
           razao_social?: string
+          regime_tributario?: string | null
+          socio_responsavel?: string | null
           telefone?: string | null
         }
         Relationships: []
@@ -351,6 +402,51 @@ export type Database = {
           tipo?: string
           titulo?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      produtos: {
+        Row: {
+          ativo: boolean | null
+          atualizado_em: string | null
+          codigo_sku: string
+          criado_em: string | null
+          custo_padrao: number | null
+          descricao: string
+          empresa_id: string
+          id: string
+          marca: string | null
+          margem_lucro: number | null
+          ncm_codigo: string | null
+          unidade_medida: string
+        }
+        Insert: {
+          ativo?: boolean | null
+          atualizado_em?: string | null
+          codigo_sku: string
+          criado_em?: string | null
+          custo_padrao?: number | null
+          descricao: string
+          empresa_id: string
+          id?: string
+          marca?: string | null
+          margem_lucro?: number | null
+          ncm_codigo?: string | null
+          unidade_medida?: string
+        }
+        Update: {
+          ativo?: boolean | null
+          atualizado_em?: string | null
+          codigo_sku?: string
+          criado_em?: string | null
+          custo_padrao?: number | null
+          descricao?: string
+          empresa_id?: string
+          id?: string
+          marca?: string | null
+          margem_lucro?: number | null
+          ncm_codigo?: string | null
+          unidade_medida?: string
         }
         Relationships: []
       }
