@@ -265,6 +265,22 @@ export function NovaLicitacaoModal({ open, onOpenChange, onSalvar }: NovaLicitac
                   rows={2}
                 />
               </div>
+
+              {/* Coluna Kanban */}
+              <div className="space-y-2">
+                <Label className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  <Columns className="w-3.5 h-3.5" /> Etapa no Kanban
+                </Label>
+                <Select value={form.colunaKanban} onValueChange={(v) => setForm(prev => ({ ...prev, colunaKanban: v as ColunaKanban }))}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {Object.entries(COLUNA_LABELS).map(([k, v]) => (
+                      <SelectItem key={k} value={k}>{v}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-[10px] text-muted-foreground">Se não selecionado, será atribuída à coluna "Captação"</p>
+              </div>
             </>
           )}
         </div>
