@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppSidebar } from './AppSidebar';
 import { useAuth } from '@/contexts/AuthContext';
-import { Bell, Search, User, LogOut, Sun, Moon } from 'lucide-react';
+import { Bell, Search, User, LogOut, Sun, Moon, Settings, ChevronRight } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import {
   DropdownMenu,
