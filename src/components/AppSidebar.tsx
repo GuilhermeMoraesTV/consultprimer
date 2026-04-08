@@ -15,6 +15,7 @@ import {
   ChevronRight,
   Gavel,
   Building2,
+  ClipboardList,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
