@@ -23,7 +23,6 @@ import { useSupabaseLicitacoes } from '@/hooks/useSupabaseLicitacoes';
 import { ColunaKanban, COLUNA_LABELS, Licitacao } from '@/types/licitacao';
 import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { cn } from '@/lib/utils';
 
 /** Cores de fundo por coluna */
 const COLUNA_BG: Record<ColunaKanban, string> = {
