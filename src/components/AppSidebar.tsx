@@ -22,9 +22,10 @@ import { cn } from '@/lib/utils';
 /** Itens de navegação do menu */
 const NAV_ITEMS = [
   { path: '/', label: 'Dashboard', icon: LayoutDashboard },
+  { path: '/cadastros', label: 'Cadastros', icon: ClipboardList },
+  { path: '/licitacoes', label: 'Licitações', icon: Gavel },
   { path: '/kanban', label: 'Kanban', icon: Kanban },
   { path: '/agenda', label: 'Agenda', icon: CalendarDays },
-  { path: '/licitacoes', label: 'Licitações', icon: Gavel },
   { path: '/documentos', label: 'Documentos', icon: FolderOpen },
   { path: '/contratos', label: 'Contratos', icon: FileText },
   { path: '/analytics', label: 'Analytics', icon: BarChart3 },

@@ -127,14 +127,8 @@ export default function KanbanPage() {
 
   return (
     <AppLayout titulo="Kanban de Licitações" subtitulo="Arraste os cards entre as colunas para atualizar o funil">
-      {/* Ações superiores */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <Button variant="default" size="sm" className="gap-1.5" onClick={() => setNovaModalOpen(true)}>
-            <Plus className="w-4 h-4" />
-            Nova Licitação
-          </Button>
-        </div>
+      {/* Info superior */}
+      <div className="flex items-center justify-end mb-4">
         <p className="text-xs text-muted-foreground">
           {loading ? (
             <span className="flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin" /> Carregando...</span>
