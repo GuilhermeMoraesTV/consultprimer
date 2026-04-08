@@ -12,7 +12,7 @@ interface KanbanCardProps {
   onClick?: () => void;
 }
 
-export function KanbanCard({ licitacao }: KanbanCardProps) {
+export function KanbanCard({ licitacao, onClick }: KanbanCardProps) {
   const {
     attributes,
     listeners,
