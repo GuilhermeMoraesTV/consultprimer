@@ -33,6 +33,7 @@ export function NovaLicitacaoModal({ open, onOpenChange, onSalvar }: NovaLicitac
     portalDisputa: '' as PortalDisputa | '',
     linkAcesso: '',
     observacoes: '',
+    colunaKanban: 'captacao' as ColunaKanban,
   });
   const [orgaoSugestoes, setOrgaoSugestoes] = useState<string[]>([]);
   const [showSugestoes, setShowSugestoes] = useState(false);
