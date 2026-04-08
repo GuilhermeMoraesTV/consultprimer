@@ -128,8 +128,8 @@ export function useSupabaseLicitacoes() {
         portal_disputa: dados.portalDisputa || null,
         link_acesso: dados.linkAcesso || null,
         observacoes: dados.observacoes || null,
-        coluna_kanban: 'captacao',
-        status: 'falta_cadastrar',
+        coluna_kanban: dados.colunaKanban || 'captacao',
+        status: COLUNA_STATUS_MAP[dados.colunaKanban || 'captacao'],
         criado_por: user.id,
       })
       .select()
