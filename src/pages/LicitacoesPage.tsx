@@ -42,7 +42,7 @@ export default function LicitacoesPage() {
   return (
     <AppLayout titulo="Licitações" subtitulo="Cadastre e gerencie todos os certames da empresa">
       {/* Barra de ações */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-5">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-5 animate-fade-in">
         <div className="flex items-center gap-2 flex-1 max-w-md">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -50,15 +50,15 @@ export default function LicitacoesPage() {
               value={busca}
               onChange={(e) => setBusca(e.target.value)}
               placeholder="Buscar por órgão, edital ou objeto..."
-              className="pl-9"
+              className="pl-9 bg-card/60 backdrop-blur-sm border-border/60"
             />
           </div>
           <Select value={filtroStatus} onValueChange={setFiltroStatus}>
-            <SelectTrigger className="w-[160px]">
+            <SelectTrigger className="w-[160px] bg-card/60 backdrop-blur-sm border-border/60">
               <Filter className="w-3.5 h-3.5 mr-1.5 text-muted-foreground" />
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-card/95 backdrop-blur-xl border-border/60">
               <SelectItem value="todos">Todos os Status</SelectItem>
               {Object.entries(STATUS_LABELS).map(([k, v]) => (
                 <SelectItem key={k} value={k}>{v}</SelectItem>
@@ -67,18 +67,18 @@ export default function LicitacoesPage() {
           </Select>
         </div>
 
-        <Button onClick={() => setModalAberto(true)} className="gap-1.5">
+        <Button onClick={() => setModalAberto(true)} className="gap-1.5 shadow-lg shadow-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30">
           <Plus className="w-4 h-4" />
           Nova Licitação
         </Button>
       </div>
 
       {/* Tabela */}
-      <div className="bg-card rounded-xl border border-border overflow-hidden">
+      <div className="glass-card rounded-2xl overflow-hidden animate-fade-in-up" style={{ animationDelay: '100ms' }}>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-border bg-muted/50">
+              <tr className="border-b border-border/40 bg-muted/30 backdrop-blur-sm">
                 <th className="text-left text-xs font-semibold text-muted-foreground px-4 py-3">Edital</th>
                 <th className="text-left text-xs font-semibold text-muted-foreground px-4 py-3">Órgão / Objeto</th>
                 <th className="text-left text-xs font-semibold text-muted-foreground px-4 py-3">Modalidade</th>
@@ -88,36 +88,38 @@ export default function LicitacoesPage() {
                 <th className="text-center text-xs font-semibold text-muted-foreground px-4 py-3">Ações</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y divide-border/30">
               {loading ? (
                 <tr><td colSpan={7} className="text-center py-12"><Loader2 className="w-5 h-5 animate-spin mx-auto text-muted-foreground" /></td></tr>
               ) : filtradas.length === 0 ? (
                 <tr>
                   <td colSpan={7}>
                     <div className="flex flex-col items-center justify-center py-12 text-center">
-                      <FileText className="w-10 h-10 text-muted-foreground mb-3" />
+                      <div className="w-14 h-14 rounded-2xl bg-secondary/60 flex items-center justify-center mb-3">
+                        <FileText className="w-7 h-7 text-muted-foreground" />
+                      </div>
                       <p className="text-sm text-muted-foreground">Nenhuma licitação encontrada</p>
                     </div>
                   </td>
                 </tr>
-              ) : filtradas.map((lic) => {
+              ) : filtradas.map((lic, i) => {
                 const dias = diasRestantes(lic.dataLicitacao);
                 const urgente = dias >= 0 && dias <= 3;
                 return (
                   <tr
                     key={lic.id}
-                    className="hover:bg-muted/30 transition-colors cursor-pointer"
+                    className="hover:bg-primary/3 transition-all duration-200 cursor-pointer group"
                     onClick={() => { setDetailLic(lic); setDetailOpen(true); }}
                   >
                     <td className="px-4 py-3">
                       <span className="text-sm font-bold text-foreground">{lic.numeroEdital}</span>
                     </td>
                     <td className="px-4 py-3 max-w-xs">
-                      <p className="text-sm font-semibold text-foreground truncate">{lic.orgaoComprador}</p>
+                      <p className="text-sm font-semibold text-foreground truncate group-hover:text-primary transition-colors">{lic.orgaoComprador}</p>
                       <p className="text-xs text-muted-foreground truncate">{lic.objeto}</p>
                     </td>
                     <td className="px-4 py-3">
-                      <span className="text-xs font-medium text-muted-foreground">
+                      <span className="text-xs font-medium text-muted-foreground px-2 py-1 rounded-lg bg-secondary/50">
                         {MODALIDADE_LABELS[lic.modalidade]}
                       </span>
                     </td>
@@ -137,7 +139,7 @@ export default function LicitacoesPage() {
                     </td>
                     <td className="px-4 py-3 text-center">
                       <button
-                        className="p-1.5 rounded hover:bg-muted transition-colors"
+                        className="p-2 rounded-xl hover:bg-secondary/80 transition-all duration-200 hover:scale-110"
                         onClick={(e) => { e.stopPropagation(); setDetailLic(lic); setDetailOpen(true); }}
                       >
                         <Eye className="w-4 h-4 text-muted-foreground" />
@@ -151,27 +153,14 @@ export default function LicitacoesPage() {
         </div>
 
         {!loading && (
-          <div className="px-4 py-3 border-t border-border bg-muted/30 text-xs text-muted-foreground">
+          <div className="px-4 py-3 border-t border-border/30 bg-muted/20 backdrop-blur-sm text-xs text-muted-foreground">
             {filtradas.length} licitação(ões) encontrada(s)
           </div>
         )}
       </div>
 
-      {/* Modal Nova Licitação */}
-      <NovaLicitacaoModal
-        open={modalAberto}
-        onOpenChange={setModalAberto}
-        onSalvar={criarLicitacao}
-      />
-
-      {/* Modal Detalhes */}
-      <LicitacaoDetailModal
-        licitacao={detailLic}
-        open={detailOpen}
-        onOpenChange={setDetailOpen}
-        onAtualizar={atualizarLicitacao}
-        onMoverColuna={moverColuna}
-      />
+      <NovaLicitacaoModal open={modalAberto} onOpenChange={setModalAberto} onSalvar={criarLicitacao} />
+      <LicitacaoDetailModal licitacao={detailLic} open={detailOpen} onOpenChange={setDetailOpen} onAtualizar={atualizarLicitacao} onMoverColuna={moverColuna} />
     </AppLayout>
   );
 }
