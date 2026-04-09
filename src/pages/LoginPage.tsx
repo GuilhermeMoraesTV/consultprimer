@@ -183,10 +183,6 @@ export default function LoginPage() {
           <div className="rounded-2xl border border-border/60 bg-card/80 backdrop-blur-xl shadow-2xl shadow-primary/5 p-8">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium mb-4">
-                <Sparkles className="w-3 h-3" />
-                {view === 'signup' ? 'Novo por aqui?' : view === 'forgot' ? 'Sem problemas' : 'Área segura'}
-              </div>
               <h2 className="text-2xl font-bold text-foreground">{title}</h2>
               <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
             </div>
