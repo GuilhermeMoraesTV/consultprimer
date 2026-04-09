@@ -75,8 +75,9 @@ export default function LoginPage() {
     }
     setSubmitting(true);
     try {
+      const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`,
+        redirectTo: `${window.location.origin}${base}/reset-password`,
       });
       if (error) throw error;
       toast({
