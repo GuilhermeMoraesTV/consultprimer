@@ -1,5 +1,5 @@
 // === Layout Principal do Sistema ===
-// Wrapper com sidebar e área de conteúdo
+// Wrapper com sidebar e área de conteúdo — design glassmorphism
 
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { User, LogOut, Sun, Moon, Settings, ChevronRight } from 'lucide-react';
 import { NotificacoesDropdown } from './NotificacoesDropdown';
 import { useTheme } from '@/contexts/ThemeContext';
+import AnimatedParticles from './AnimatedParticles';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,14 +34,22 @@ export function AppLayout({ children, titulo, subtitulo }: AppLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* Subtle animated background */}
+      <AnimatedParticles count={30} />
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl animate-glow-pulse" />
+        <div className="absolute top-1/2 -left-32 w-80 h-80 rounded-full bg-primary/3 blur-3xl animate-glow-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute -bottom-32 right-1/4 w-72 h-72 rounded-full bg-accent/5 blur-3xl animate-glow-pulse" style={{ animationDelay: '4s' }} />
+      </div>
+
       <AppSidebar />
 
       {/* Conteúdo principal com offset da sidebar */}
-      <div className="ml-60 min-h-screen flex flex-col">
-        {/* Header superior */}
-        <header className="h-16 bg-card border-b border-border flex items-center justify-between px-6 sticky top-0 z-40">
-          <div>
+      <div className="ml-60 min-h-screen flex flex-col relative z-10">
+        {/* Header superior — glass effect */}
+        <header className="h-16 glass-header flex items-center justify-between px-6 sticky top-0 z-40">
+          <div className="animate-fade-in">
             <h1 className="text-lg font-bold text-foreground">{titulo}</h1>
             {subtitulo && (
               <p className="text-xs text-muted-foreground">{subtitulo}</p>
@@ -51,7 +60,7 @@ export function AppLayout({ children, titulo, subtitulo }: AppLayoutProps) {
             {/* Tema */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-secondary transition-colors"
+              className="p-2 rounded-xl hover:bg-secondary/80 backdrop-blur-sm transition-all duration-200 hover:scale-105"
               title={theme === 'light' ? 'Modo escuro' : 'Modo claro'}
             >
               {theme === 'light' ? (
@@ -67,8 +76,8 @@ export function AppLayout({ children, titulo, subtitulo }: AppLayoutProps) {
             {/* Avatar do usuário com dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2.5 py-1.5 px-2 rounded-xl hover:bg-secondary transition-colors">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center ring-2 ring-primary/20">
+                <button className="flex items-center gap-2.5 py-1.5 px-2 rounded-xl hover:bg-secondary/80 backdrop-blur-sm transition-all duration-200">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center ring-2 ring-primary/20 shadow-lg shadow-primary/20">
                     <User className="w-4 h-4 text-primary-foreground" />
                   </div>
                   <div className="hidden md:flex flex-col items-start">
@@ -81,10 +90,10 @@ export function AppLayout({ children, titulo, subtitulo }: AppLayoutProps) {
                   </div>
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-64 p-2 rounded-xl shadow-lg border border-border/60">
+              <DropdownMenuContent align="end" className="w-64 p-2 rounded-xl shadow-2xl border border-border/60 bg-card/90 backdrop-blur-xl">
                 {/* Cabeçalho do perfil */}
                 <div className="flex items-center gap-3 px-2 py-3">
-                  <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center ring-2 ring-primary/20 shrink-0">
+                  <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center ring-2 ring-primary/20 shadow-lg shadow-primary/20 shrink-0">
                     <User className="w-5 h-5 text-primary-foreground" />
                   </div>
                   <div className="flex flex-col min-w-0">
@@ -99,13 +108,12 @@ export function AppLayout({ children, titulo, subtitulo }: AppLayoutProps) {
 
                 <DropdownMenuSeparator className="my-1" />
 
-                {/* Meu Perfil */}
                 <DropdownMenuItem
                   onClick={() => navigate('/configuracoes')}
-                  className="flex items-center justify-between px-2 py-2.5 rounded-lg cursor-pointer transition-colors"
+                  className="flex items-center justify-between px-2 py-2.5 rounded-lg cursor-pointer transition-all duration-200 hover:scale-[1.01]"
                 >
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-secondary/80 flex items-center justify-center">
                       <Settings className="w-4 h-4 text-muted-foreground" />
                     </div>
                     <span className="text-sm font-medium">Meu Perfil</span>
@@ -115,10 +123,9 @@ export function AppLayout({ children, titulo, subtitulo }: AppLayoutProps) {
 
                 <DropdownMenuSeparator className="my-1" />
 
-                {/* Sair */}
                 <DropdownMenuItem
                   onClick={handleSignOut}
-                  className="flex items-center gap-2.5 px-2 py-2.5 rounded-lg cursor-pointer text-destructive focus:text-destructive transition-colors"
+                  className="flex items-center gap-2.5 px-2 py-2.5 rounded-lg cursor-pointer text-destructive focus:text-destructive transition-all duration-200"
                 >
                   <div className="w-8 h-8 rounded-lg bg-destructive/10 flex items-center justify-center">
                     <LogOut className="w-4 h-4" />
@@ -131,7 +138,7 @@ export function AppLayout({ children, titulo, subtitulo }: AppLayoutProps) {
         </header>
 
         {/* Área de conteúdo */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-6 animate-fade-in-up">
           {children}
         </main>
       </div>

@@ -1,20 +1,10 @@
 // === Página do Kanban - Board Interativo ===
 import { useState } from 'react';
 import {
-  DndContext,
-  DragOverlay,
-  closestCorners,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  DragStartEvent,
-  DragEndEvent,
+  DndContext, DragOverlay, closestCorners, KeyboardSensor, PointerSensor,
+  useSensor, useSensors, DragStartEvent, DragEndEvent,
 } from '@dnd-kit/core';
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useDroppable } from '@dnd-kit/core';
 import { AppLayout } from '@/components/AppLayout';
 import { KanbanCard } from '@/components/KanbanCard';
@@ -24,54 +14,41 @@ import { ColunaKanban, COLUNA_LABELS, Licitacao } from '@/types/licitacao';
 import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-/** Cores de fundo por coluna */
 const COLUNA_BG: Record<ColunaKanban, string> = {
-  captacao: 'bg-kanban-captacao',
-  analise: 'bg-kanban-analise',
-  montagem: 'bg-kanban-montagem',
-  pregao: 'bg-kanban-pregao',
-  recurso: 'bg-kanban-recurso',
+  captacao: 'bg-kanban-captacao/80',
+  analise: 'bg-kanban-analise/80',
+  montagem: 'bg-kanban-montagem/80',
+  pregao: 'bg-kanban-pregao/80',
+  recurso: 'bg-kanban-recurso/80',
 };
 
-/** Cores de indicador superior por coluna */
 const COLUNA_INDICATOR: Record<ColunaKanban, string> = {
   captacao: 'bg-muted-foreground',
-  analise: 'bg-status-analise',
-  montagem: 'bg-primary',
-  pregao: 'bg-purple-500',
-  recurso: 'bg-status-ganha',
+  analise: 'bg-gradient-to-r from-status-analise to-status-analise/60',
+  montagem: 'bg-gradient-to-r from-primary to-primary/60',
+  pregao: 'bg-gradient-to-r from-purple-500 to-purple-400',
+  recurso: 'bg-gradient-to-r from-status-ganha to-status-ganha/60',
 };
 
 const COLUNAS: ColunaKanban[] = ['captacao', 'analise', 'montagem', 'pregao', 'recurso'];
 
-/** Componente de coluna droppable */
 function KanbanColumn({ coluna, licitacoes, onCardClick }: { coluna: ColunaKanban; licitacoes: Licitacao[]; onCardClick: (lic: Licitacao) => void }) {
   const { setNodeRef, isOver } = useDroppable({ id: coluna });
-
   return (
-    <div
-      className={cn(
-        'flex flex-col rounded-xl min-w-[280px] w-[280px] flex-shrink-0 transition-all',
-        COLUNA_BG[coluna],
-        isOver && 'ring-2 ring-primary/30'
-      )}
-    >
-      {/* Indicador superior colorido */}
-      <div className={cn('h-1 rounded-t-xl', COLUNA_INDICATOR[coluna])} />
-
-      {/* Cabeçalho da coluna */}
+    <div className={cn(
+      'flex flex-col rounded-2xl min-w-[280px] w-[280px] flex-shrink-0 transition-all duration-300 backdrop-blur-sm border border-border/30',
+      COLUNA_BG[coluna],
+      isOver && 'ring-2 ring-primary/40 shadow-lg shadow-primary/10 scale-[1.01]'
+    )}>
+      <div className={cn('h-1.5 rounded-t-2xl', COLUNA_INDICATOR[coluna])} />
       <div className="flex items-center justify-between px-3 py-3">
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-bold text-foreground">
-            {COLUNA_LABELS[coluna]}
-          </h3>
-          <span className="flex items-center justify-center w-5 h-5 rounded-full bg-muted text-xs font-bold text-muted-foreground">
+          <h3 className="text-sm font-bold text-foreground">{COLUNA_LABELS[coluna]}</h3>
+          <span className="flex items-center justify-center w-6 h-6 rounded-lg bg-card/60 backdrop-blur-sm text-xs font-bold text-muted-foreground border border-border/30">
             {licitacoes.length}
           </span>
         </div>
       </div>
-
-      {/* Cards */}
       <div ref={setNodeRef} className="flex-1 px-2 pb-2 space-y-2 min-h-[200px] overflow-y-auto">
         <SortableContext items={licitacoes.map((l) => l.id)} strategy={verticalListSortingStrategy}>
           {licitacoes.map((lic) => (
@@ -95,38 +72,27 @@ export default function KanbanPage() {
   );
 
   const handleDragStart = (event: DragStartEvent) => {
-    const found = licitacoes.find((l) => l.id === event.active.id);
-    setActiveLicitacao(found || null);
+    setActiveLicitacao(licitacoes.find((l) => l.id === event.active.id) || null);
   };
 
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     setActiveLicitacao(null);
     if (!over) return;
-
     const overId = String(over.id);
     const colunaDestino = COLUNAS.includes(overId as ColunaKanban)
       ? (overId as ColunaKanban)
       : licitacoes.find((l) => l.id === overId)?.colunaKanban;
-
     if (!colunaDestino) return;
-
     await moverColuna(String(active.id), colunaDestino);
   };
 
-  const handleCardClick = (lic: Licitacao) => {
-    setDetailLicitacao(lic);
-    setDetailOpen(true);
-  };
-
-  const porColuna = (coluna: ColunaKanban) =>
-    licitacoes.filter((l) => l.colunaKanban === coluna);
+  const porColuna = (coluna: ColunaKanban) => licitacoes.filter((l) => l.colunaKanban === coluna);
 
   return (
     <AppLayout titulo="Kanban de Licitações" subtitulo="Arraste os cards entre as colunas para atualizar o funil">
-      {/* Info superior */}
-      <div className="flex items-center justify-end mb-4">
-        <p className="text-xs text-muted-foreground">
+      <div className="flex items-center justify-end mb-4 animate-fade-in">
+        <p className="text-xs text-muted-foreground px-3 py-1.5 rounded-full bg-card/60 backdrop-blur-sm border border-border/30">
           {loading ? (
             <span className="flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin" /> Carregando...</span>
           ) : (
@@ -135,37 +101,17 @@ export default function KanbanPage() {
         </p>
       </div>
 
-      {/* Board Kanban */}
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCorners}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
-        <div className="flex gap-4 overflow-x-auto pb-4">
+      <DndContext sensors={sensors} collisionDetection={closestCorners} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+        <div className="flex gap-4 overflow-x-auto pb-4 animate-fade-in-up" style={{ animationDelay: '100ms' }}>
           {COLUNAS.map((coluna) => (
-            <KanbanColumn
-              key={coluna}
-              coluna={coluna}
-              licitacoes={porColuna(coluna)}
-              onCardClick={handleCardClick}
-            />
+            <KanbanColumn key={coluna} coluna={coluna} licitacoes={porColuna(coluna)} onCardClick={(lic) => { setDetailLicitacao(lic); setDetailOpen(true); }} />
           ))}
         </div>
-
-        <DragOverlay>
-          {activeLicitacao && <KanbanCard licitacao={activeLicitacao} />}
-        </DragOverlay>
+        <DragOverlay>{activeLicitacao && <KanbanCard licitacao={activeLicitacao} />}</DragOverlay>
       </DndContext>
 
-      {/* Modal Detalhes */}
-      <LicitacaoDetailModal
-        licitacao={detailLicitacao}
-        open={detailOpen}
-        onOpenChange={setDetailOpen}
-        onAtualizar={atualizarLicitacao}
-        onMoverColuna={moverColuna}
-      />
+      <LicitacaoDetailModal licitacao={detailLicitacao} open={detailOpen} onOpenChange={setDetailOpen}
+        onAtualizar={atualizarLicitacao} onMoverColuna={moverColuna} />
     </AppLayout>
   );
 }
