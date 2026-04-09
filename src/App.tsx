@@ -7,6 +7,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import LoginPage from "./pages/LoginPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import Index from "./pages/Index.tsx";
 import KanbanPage from "./pages/KanbanPage.tsx";
 import AgendaPage from "./pages/AgendaPage.tsx";
