@@ -45,17 +45,11 @@ export default function ResetPasswordPage() {
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background px-4">
       {/* Animated background */}
+      <AnimatedParticles count={70} />
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-primary/10 blur-3xl animate-[pulse_6s_ease-in-out_infinite]" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-primary/8 blur-3xl animate-[pulse_6s_ease-in-out_infinite]" />
         <div className="absolute top-1/2 -left-32 w-80 h-80 rounded-full bg-primary/5 blur-3xl animate-[pulse_8s_ease-in-out_infinite_1s]" />
-        <div className="absolute -bottom-32 right-1/3 w-72 h-72 rounded-full bg-accent/10 blur-3xl animate-[pulse_7s_ease-in-out_infinite_2s]" />
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `radial-gradient(circle, hsl(var(--primary)) 1px, transparent 1px)`,
-            backgroundSize: '40px 40px',
-          }}
-        />
+        <div className="absolute -bottom-32 right-1/3 w-72 h-72 rounded-full bg-accent/8 blur-3xl animate-[pulse_7s_ease-in-out_infinite_2s]" />
       </div>
 
       <div className="w-full max-w-md relative z-10 animate-scale-in">
