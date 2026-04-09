@@ -2,17 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* =============================================
-   CONSULTPRIMER - Design System Profissional
-   Sistema de Gestão de Licitações
-   Paleta B2B Financeiro/Jurídico
-   ============================================= */
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @layer base {
   :root {
-    /* === Superfícies === */
     --background: 220 20% 97%;
     --foreground: 220 30% 12%;
 
@@ -22,43 +15,35 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 30% 12%;
 
-    /* === Marca Principal - Azul Corporativo === */
     --primary: 215 75% 35%;
     --primary-foreground: 0 0% 100%;
     --primary-hover: 215 75% 28%;
     --primary-light: 215 60% 95%;
 
-    /* === Secundária - Cinza Neutro === */
     --secondary: 220 14% 94%;
     --secondary-foreground: 220 20% 30%;
 
-    /* === Mutado === */
     --muted: 220 14% 94%;
     --muted-foreground: 220 10% 50%;
 
-    /* === Acento - Dourado Sutil === */
     --accent: 38 80% 50%;
     --accent-foreground: 0 0% 100%;
 
-    /* === Destrutivo === */
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    /* === Bordas e Inputs === */
     --border: 220 15% 88%;
     --input: 220 15% 88%;
     --ring: 215 75% 35%;
 
     --radius: 0.5rem;
 
-    /* === Semáforo de Status === */
     --status-pendente: 0 72% 51%;
     --status-analise: 38 80% 50%;
     --status-cadastrada: 215 75% 50%;
     --status-ganha: 145 63% 42%;
     --status-perdida: 220 10% 40%;
 
-    /* === Sidebar === */
     --sidebar-background: 220 30% 14%;
     --sidebar-foreground: 220 10% 80%;
     --sidebar-primary: 215 75% 55%;
@@ -69,7 +54,6 @@
     --sidebar-ring: 215 75% 55%;
     --sidebar-muted: 220 15% 25%;
 
-    /* === Kanban === */
     --kanban-captacao: 220 14% 96%;
     --kanban-analise: 38 100% 97%;
     --kanban-montagem: 215 100% 97%;
@@ -129,43 +113,55 @@
   }
 }
 
-/* === Scrollbar customizada === */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground) / 0.3);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.5);
-}
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: hsl(var(--muted-foreground) / 0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.5); }
 
-/* === Glassmorphism Utilities === */
 @layer components {
   .glass-card {
-    @apply bg-card/80 backdrop-blur-xl border border-border/60 shadow-lg;
+    @apply bg-card/80 backdrop-blur-xl border border-border/50 shadow-sm;
   }
   .glass-card-hover {
-    @apply bg-card/80 backdrop-blur-xl border border-border/60 shadow-lg transition-all duration-300;
+    @apply bg-card/80 backdrop-blur-xl border border-border/50 shadow-sm transition-all duration-300;
   }
   .glass-card-hover:hover {
-    @apply shadow-xl border-primary/20 -translate-y-0.5;
-    box-shadow: 0 20px 40px -12px hsl(var(--primary) / 0.1);
+    @apply shadow-md border-primary/20 -translate-y-0.5;
   }
   .glass-surface {
     @apply bg-card/60 backdrop-blur-md border border-border/40;
   }
   .glass-header {
-    @apply bg-card/70 backdrop-blur-xl border-b border-border/50;
+    @apply bg-card/80 backdrop-blur-xl border-b border-border/50;
+  }
+
+  /* Metric card with proper overflow handling */
+  .metric-card {
+    @apply glass-card-hover rounded-2xl p-5 overflow-hidden;
+  }
+  .metric-card .metric-value {
+    @apply text-2xl font-bold text-foreground truncate leading-tight;
+  }
+  .metric-card .metric-value-sm {
+    @apply text-lg font-bold text-foreground truncate leading-tight;
+  }
+  .metric-card .metric-label {
+    @apply text-sm text-muted-foreground mt-0.5 truncate;
+  }
+
+  /* Section card */
+  .section-card {
+    @apply glass-card rounded-2xl overflow-hidden;
+  }
+  .section-header {
+    @apply flex items-center justify-between px-5 py-4 border-b border-border/40;
+  }
+  .section-title {
+    @apply text-sm font-bold text-foreground;
   }
 }
 
-/* === Animações === */
 @layer utilities {
   .animate-slide-in {
     animation: slideIn 0.25s ease-out;
@@ -182,17 +178,10 @@
   .animate-glow-pulse {
     animation: glowPulse 4s ease-in-out infinite;
   }
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
   .stagger-1 { animation-delay: 50ms; }
   .stagger-2 { animation-delay: 100ms; }
   .stagger-3 { animation-delay: 150ms; }
   .stagger-4 { animation-delay: 200ms; }
-  .stagger-5 { animation-delay: 250ms; }
-  .stagger-6 { animation-delay: 300ms; }
-  .stagger-7 { animation-delay: 350ms; }
-  .stagger-8 { animation-delay: 400ms; }
 }
 
 @keyframes slideIn {
@@ -204,7 +193,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes scaleIn {
@@ -213,9 +202,5 @@
 }
 @keyframes glowPulse {
   0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.05); }
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { opacity: 0.6; transform: scale(1.03); }
 }
