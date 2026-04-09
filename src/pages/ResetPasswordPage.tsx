@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Gavel, Loader2, Lock, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import AnimatedParticles from '@/components/AnimatedParticles';
 
 export default function ResetPasswordPage() {
   const navigate = useNavigate();
