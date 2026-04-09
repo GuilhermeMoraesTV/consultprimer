@@ -1,4 +1,3 @@
-// === Página de Agenda / Calendário de Licitações ===
 import { useState, useMemo } from 'react';
 import { AppLayout } from '@/components/AppLayout';
 import { EVENTOS_MOCK } from '@/data/mockData';
@@ -15,7 +14,7 @@ const TIPO_ICONE: Record<EventoCalendario['tipo'], typeof Gavel> = {
   pregao: Gavel, impugnacao: AlertTriangle, amostra: Package, certidao: FileWarning,
 };
 const TIPO_LABEL: Record<EventoCalendario['tipo'], string> = {
-  pregao: 'Pregão', impugnacao: 'Impugnação', amostra: 'Entrega de Amostra', certidao: 'Vencimento Certidão',
+  pregao: 'Pregão', impugnacao: 'Impugnação', amostra: 'Entrega de Amostra', certidao: 'Venc. Certidão',
 };
 
 export default function AgendaPage() {
@@ -43,18 +42,17 @@ export default function AgendaPage() {
   return (
     <AppLayout titulo="Agenda de Licitações" subtitulo="Calendário com pregões, prazos e vencimentos">
       <div className="flex gap-6 h-[calc(100vh-160px)] animate-fade-in-up">
-        {/* Calendário principal */}
-        <div className="flex-1 glass-card rounded-2xl p-5">
-          <div className="flex items-center justify-between mb-6">
+        <div className="flex-1 section-card p-5">
+          <div className="flex items-center justify-between mb-5">
             <button onClick={() => setMesAtual(subMonths(mesAtual, 1))}
-              className="p-2 rounded-xl hover:bg-secondary/80 backdrop-blur-sm transition-all duration-200 hover:scale-105">
+              className="p-2 rounded-lg hover:bg-secondary/80 transition-colors">
               <ChevronLeft className="w-5 h-5 text-muted-foreground" />
             </button>
-            <h2 className="text-lg font-bold text-foreground capitalize">
+            <h2 className="text-base font-bold text-foreground capitalize">
               {format(mesAtual, 'MMMM yyyy', { locale: ptBR })}
             </h2>
             <button onClick={() => setMesAtual(addMonths(mesAtual, 1))}
-              className="p-2 rounded-xl hover:bg-secondary/80 backdrop-blur-sm transition-all duration-200 hover:scale-105">
+              className="p-2 rounded-lg hover:bg-secondary/80 transition-colors">
               <ChevronRight className="w-5 h-5 text-muted-foreground" />
             </button>
           </div>
@@ -74,15 +72,15 @@ export default function AgendaPage() {
               return (
                 <button key={i} onClick={() => setDiaSelecionado(dia)}
                   className={cn(
-                    'relative flex flex-col items-center p-2 rounded-xl min-h-[72px] transition-all duration-200 text-sm',
+                    'relative flex flex-col items-center p-2 rounded-lg min-h-[68px] transition-all duration-200 text-sm',
                     !doMes && 'opacity-30',
-                    doMes && 'hover:bg-secondary/50 hover:backdrop-blur-sm',
-                    hoje && 'ring-2 ring-primary/30 shadow-sm',
-                    selecionado && 'bg-primary/10 ring-2 ring-primary backdrop-blur-sm shadow-md shadow-primary/10'
+                    doMes && 'hover:bg-secondary/50',
+                    hoje && 'ring-1 ring-primary/30',
+                    selecionado && 'bg-primary/10 ring-2 ring-primary'
                   )}>
                   <span className={cn(
-                    'w-7 h-7 flex items-center justify-center rounded-full text-sm font-medium transition-all',
-                    hoje && 'bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-lg shadow-primary/25',
+                    'w-7 h-7 flex items-center justify-center rounded-full text-sm font-medium',
+                    hoje && 'bg-primary text-primary-foreground',
                     selecionado && !hoje && 'font-bold text-primary'
                   )}>
                     {format(dia, 'd')}
@@ -100,57 +98,50 @@ export default function AgendaPage() {
           </div>
         </div>
 
-        {/* Painel lateral */}
-        <div className="w-80 glass-card rounded-2xl p-5 flex flex-col">
+        <div className="w-80 section-card p-5 flex flex-col">
           <h3 className="text-sm font-bold text-foreground mb-1">
             {diaSelecionado ? format(diaSelecionado, "dd 'de' MMMM, yyyy", { locale: ptBR }) : 'Selecione um dia'}
           </h3>
           <p className="text-xs text-muted-foreground mb-4">
-            {eventosDoDia.length > 0 ? `${eventosDoDia.length} evento(s) agendado(s)` : 'Nenhum evento neste dia'}
+            {eventosDoDia.length > 0 ? `${eventosDoDia.length} evento(s)` : 'Nenhum evento'}
           </p>
 
-          <div className="flex-1 space-y-3 overflow-y-auto">
+          <div className="flex-1 space-y-2.5 overflow-y-auto">
             {eventosDoDia.map((evento, i) => {
               const Icone = TIPO_ICONE[evento.tipo];
               return (
                 <div key={evento.id}
-                  className="p-3.5 rounded-xl border border-border/40 bg-card/50 backdrop-blur-sm animate-fade-in transition-all duration-200 hover:border-border/70 hover:shadow-sm"
+                  className="p-3 rounded-xl border border-border/40 bg-card/50 animate-fade-in transition-colors hover:border-border/70"
                   style={{ animationDelay: `${i * 60}ms` }}>
                   <div className="flex items-start gap-2.5">
-                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 hover:scale-110"
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
                       style={{ backgroundColor: evento.cor + '18', color: evento.cor }}>
                       <Icone className="w-4 h-4" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-foreground leading-tight">{evento.titulo}</p>
+                      <p className="text-sm font-semibold text-foreground leading-tight truncate">{evento.titulo}</p>
                       <span className="text-xs text-muted-foreground">{TIPO_LABEL[evento.tipo]}</span>
                     </div>
                   </div>
                 </div>
               );
             })}
-
             {diaSelecionado && eventosDoDia.length === 0 && (
               <div className="flex flex-col items-center justify-center py-8 text-center animate-fade-in">
-                <div className="w-14 h-14 rounded-2xl bg-secondary/60 flex items-center justify-center mb-3">
-                  <Gavel className="w-6 h-6 text-muted-foreground" />
-                </div>
-                <p className="text-sm text-muted-foreground">Nenhum evento agendado</p>
+                <Gavel className="w-8 h-8 text-muted-foreground/30 mb-2" />
+                <p className="text-sm text-muted-foreground">Nenhum evento</p>
               </div>
             )}
           </div>
 
           <div className="mt-4 pt-4 border-t border-border/40">
             <p className="text-xs font-semibold text-muted-foreground mb-2">Legenda</p>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-1.5">
               {Object.entries(TIPO_LABEL).map(([tipo, label]) => {
-                const cores: Record<string, string> = {
-                  pregao: 'hsl(215, 75%, 35%)', impugnacao: 'hsl(38, 80%, 50%)',
-                  amostra: 'hsl(270, 60%, 50%)', certidao: 'hsl(0, 72%, 51%)',
-                };
+                const cores: Record<string, string> = { pregao: 'hsl(215, 75%, 35%)', impugnacao: 'hsl(38, 80%, 50%)', amostra: 'hsl(270, 60%, 50%)', certidao: 'hsl(0, 72%, 51%)' };
                 return (
                   <div key={tipo} className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: cores[tipo] }} />
+                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: cores[tipo] }} />
                     <span className="text-[10px] text-muted-foreground">{label}</span>
                   </div>
                 );
