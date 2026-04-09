@@ -31,6 +31,7 @@ const App = () => (
           <AuthProvider>
             <Routes>
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
               <Route path="/cadastros" element={<ProtectedRoute><CadastrosPage /></ProtectedRoute>} />
               <Route path="/kanban" element={<ProtectedRoute><KanbanPage /></ProtectedRoute>} />
