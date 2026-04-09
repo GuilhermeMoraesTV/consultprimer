@@ -1,21 +1,11 @@
-// === Página de Analytics e Relatórios ===
 import { useMemo } from 'react';
 import { AppLayout } from '@/components/AppLayout';
 import { LICITACOES_MOCK, METRICAS_MOCK, CONCORRENTES_MOCK } from '@/data/mockData';
 import { formatarMoeda } from '@/lib/formatters';
 import { MODALIDADE_LABELS, STATUS_LABELS } from '@/types/licitacao';
 import {
-  TrendingUp,
-  TrendingDown,
-  Trophy,
-  Target,
-  BarChart3,
-  PieChart,
-  Users,
-  DollarSign,
-  ArrowUpRight,
-  ArrowDownRight,
-  Percent,
+  TrendingUp, TrendingDown, Trophy, Target, BarChart3, PieChart, Users,
+  DollarSign, ArrowUpRight, ArrowDownRight, Percent,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -25,19 +15,19 @@ function BarraHorizontal({ label, valor, maximo, cor, formato = 'numero' }: {
   const percentual = maximo > 0 ? (valor / maximo) * 100 : 0;
   const valorFormatado = formato === 'moeda' ? formatarMoeda(valor) : formato === 'percentual' ? `${valor.toFixed(1)}%` : String(valor);
   return (
-    <div className="mb-3">
-      <div className="flex items-center justify-between text-xs mb-1">
-        <span className="text-muted-foreground font-medium">{label}</span>
-        <span className="font-bold text-foreground">{valorFormatado}</span>
+    <div className="mb-3.5">
+      <div className="flex items-center justify-between text-xs mb-1.5">
+        <span className="text-muted-foreground font-medium truncate mr-2">{label}</span>
+        <span className="font-bold text-foreground shrink-0">{valorFormatado}</span>
       </div>
-      <div className="w-full h-2.5 bg-secondary/60 rounded-full overflow-hidden">
+      <div className="w-full h-2 bg-secondary/60 rounded-full overflow-hidden">
         <div className={cn('h-full rounded-full transition-all duration-700', cor)} style={{ width: `${Math.min(percentual, 100)}%` }} />
       </div>
     </div>
   );
 }
 
-function DonutChart({ dados, tamanho = 140 }: { dados: { label: string; valor: number; cor: string }[]; tamanho?: number }) {
+function DonutChart({ dados, tamanho = 130 }: { dados: { label: string; valor: number; cor: string }[]; tamanho?: number }) {
   const total = dados.reduce((s, d) => s + d.valor, 0);
   const raio = 50;
   const circunferencia = 2 * Math.PI * raio;
@@ -49,21 +39,20 @@ function DonutChart({ dados, tamanho = 140 }: { dados: { label: string; valor: n
           const pct = total > 0 ? d.valor / total : 0;
           const dash = pct * circunferencia;
           const segmento = (
-            <circle key={i} cx="60" cy="60" r={raio} fill="none" stroke={d.cor} strokeWidth="16"
+            <circle key={i} cx="60" cy="60" r={raio} fill="none" stroke={d.cor} strokeWidth="14"
               strokeDasharray={`${dash} ${circunferencia - dash}`} strokeDashoffset={-offset} transform="rotate(-90 60 60)"
-              className="transition-all duration-700"
-            />
+              className="transition-all duration-700" />
           );
           offset += dash;
           return segmento;
         })}
         <text x="60" y="56" textAnchor="middle" className="text-xs font-bold fill-foreground">{total}</text>
-        <text x="60" y="70" textAnchor="middle" className="text-[9px] fill-muted-foreground">licitações</text>
+        <text x="60" y="70" textAnchor="middle" className="text-[9px] fill-muted-foreground">total</text>
       </svg>
       <div className="space-y-1.5">
         {dados.map((d, i) => (
           <div key={i} className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: d.cor }} />
+            <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: d.cor }} />
             <span className="text-xs text-muted-foreground">{d.label}</span>
             <span className="text-xs font-bold text-foreground">{d.valor}</span>
           </div>
@@ -106,18 +95,17 @@ export default function AnalyticsPage() {
 
   return (
     <AppLayout titulo="Analytics e Relatórios" subtitulo="Visão analítica do desempenho em licitações">
-      {/* Métricas superiores */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
         {[
           { icon: Target, label: 'Taxa de Sucesso', value: `${m.taxaSucesso}%`, trend: '+12%', up: true },
           { icon: DollarSign, label: 'Volume Ganho', value: formatarMoeda(m.valorGanho), trend: '+8%', up: true },
           { icon: Percent, label: 'Deságio Médio', value: '14.7%', trend: '-3%', up: false },
-          { icon: Trophy, label: 'Licitações Disputadas', value: String(m.totalLicitacoes) },
+          { icon: Trophy, label: 'Disputadas', value: String(m.totalLicitacoes) },
         ].map((item, i) => (
-          <div key={i} className="glass-card-hover rounded-2xl p-4 animate-fade-in-up" style={{ animationDelay: `${i * 80}ms` }}>
+          <div key={i} className="metric-card animate-fade-in-up" style={{ animationDelay: `${i * 80}ms` }}>
             <div className="flex items-center justify-between mb-2">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                <item.icon className="w-5 h-5 text-primary" />
+              <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                <item.icon className="w-4 h-4 text-primary" />
               </div>
               {item.trend && (
                 <span className={cn('inline-flex items-center gap-0.5 text-xs font-semibold px-2 py-0.5 rounded-full',
@@ -128,26 +116,26 @@ export default function AnalyticsPage() {
                 </span>
               )}
             </div>
-            <p className={cn('font-bold text-foreground', item.value.length > 10 ? 'text-xl' : 'text-2xl')}>{item.value}</p>
-            <p className="text-xs text-muted-foreground">{item.label}</p>
+            <p className={item.value.length > 10 ? 'metric-value-sm' : 'metric-value'}>{item.value}</p>
+            <p className="metric-label">{item.label}</p>
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-        <div className="lg:col-span-2 glass-card rounded-2xl p-5 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+        <div className="lg:col-span-2 section-card p-5 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
               <BarChart3 className="w-4 h-4 text-primary" />
             </div>
-            <h3 className="text-sm font-bold text-foreground">Evolução Mensal</h3>
+            <h3 className="section-title">Evolução Mensal</h3>
           </div>
-          <div className="flex items-end gap-3 h-48 mb-3">
+          <div className="flex items-end gap-3 h-44 mb-3">
             {valoresMensais.map((v, i) => (
               <div key={i} className="flex-1 flex flex-col items-center gap-1">
                 <div className="w-full flex gap-1 items-end h-full">
-                  <div className="flex-1 rounded-t-lg bg-primary/15 transition-all duration-500 hover:bg-primary/25" style={{ height: `${(v.disputado / maxMensal) * 100}%` }} />
-                  <div className="flex-1 rounded-t-lg bg-gradient-to-t from-status-ganha to-status-ganha/70 transition-all duration-500" style={{ height: `${(v.ganho / maxMensal) * 100}%` }} />
+                  <div className="flex-1 rounded-t-md bg-primary/12 transition-all duration-500 hover:bg-primary/20" style={{ height: `${(v.disputado / maxMensal) * 100}%` }} />
+                  <div className="flex-1 rounded-t-md bg-status-ganha/80 transition-all duration-500 hover:bg-status-ganha" style={{ height: `${(v.ganho / maxMensal) * 100}%` }} />
                 </div>
                 <span className="text-[10px] text-muted-foreground font-medium">{meses[i]}</span>
               </div>
@@ -159,24 +147,24 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        <div className="glass-card rounded-2xl p-5 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+        <div className="section-card p-5 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
               <PieChart className="w-4 h-4 text-primary" />
             </div>
-            <h3 className="text-sm font-bold text-foreground">Por Status</h3>
+            <h3 className="section-title">Por Status</h3>
           </div>
           <DonutChart dados={porStatus} />
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="glass-card rounded-2xl p-5 animate-fade-in-up" style={{ animationDelay: '400ms' }}>
+        <div className="section-card p-5 animate-fade-in-up" style={{ animationDelay: '400ms' }}>
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
               <BarChart3 className="w-4 h-4 text-primary" />
             </div>
-            <h3 className="text-sm font-bold text-foreground">Por Modalidade</h3>
+            <h3 className="section-title">Por Modalidade</h3>
           </div>
           {porModalidade.map((mod) => (
             <BarraHorizontal key={mod.label} label={mod.label} valor={mod.valor}
@@ -184,22 +172,22 @@ export default function AnalyticsPage() {
           ))}
         </div>
 
-        <div className="glass-card rounded-2xl p-5 animate-fade-in-up" style={{ animationDelay: '500ms' }}>
+        <div className="section-card p-5 animate-fade-in-up" style={{ animationDelay: '500ms' }}>
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
               <Users className="w-4 h-4 text-primary" />
             </div>
-            <h3 className="text-sm font-bold text-foreground">Análise de Concorrência</h3>
+            <h3 className="section-title">Análise de Concorrência</h3>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {CONCORRENTES_MOCK.map((c) => {
               const total = c.vitorias + c.derrotas;
               const taxa = total > 0 ? (c.vitorias / total) * 100 : 0;
               return (
-                <div key={c.empresa} className="p-3.5 rounded-xl bg-secondary/30 backdrop-blur-sm border border-border/30 transition-all duration-200 hover:border-border/60 hover:shadow-sm">
+                <div key={c.empresa} className="p-3 rounded-xl bg-secondary/30 border border-border/40 transition-colors hover:border-border/60">
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-sm font-semibold text-foreground">{c.empresa}</span>
-                    <span className="text-xs font-bold text-muted-foreground px-2 py-0.5 rounded-full bg-secondary/60">{taxa.toFixed(0)}%</span>
+                    <span className="text-sm font-semibold text-foreground truncate mr-2">{c.empresa}</span>
+                    <span className="text-xs font-bold text-muted-foreground px-2 py-0.5 rounded-full bg-secondary/60 shrink-0">{taxa.toFixed(0)}%</span>
                   </div>
                   <div className="flex items-center gap-3 text-xs text-muted-foreground">
                     <span className="text-status-ganha font-medium">✓ {c.vitorias}</span>
@@ -207,7 +195,7 @@ export default function AnalyticsPage() {
                     <span>Deságio: <strong className="text-foreground">{c.valorMedioDesagio}%</strong></span>
                   </div>
                   <div className="mt-1.5 w-full h-1.5 bg-secondary/60 rounded-full overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-status-ganha to-status-ganha/60 rounded-full transition-all duration-500" style={{ width: `${taxa}%` }} />
+                    <div className="h-full bg-status-ganha/70 rounded-full transition-all duration-500" style={{ width: `${taxa}%` }} />
                   </div>
                 </div>
               );
