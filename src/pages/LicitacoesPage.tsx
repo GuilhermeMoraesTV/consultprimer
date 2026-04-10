@@ -6,11 +6,12 @@ import { NovaLicitacaoModal } from '@/components/NovaLicitacaoModal';
 import { useSupabaseLicitacoes } from '@/hooks/useSupabaseLicitacoes';
 import { Licitacao, StatusLicitacao, MODALIDADE_LABELS, STATUS_LABELS } from '@/types/licitacao';
 import { formatarMoeda, formatarData, textoUrgencia, diasRestantes } from '@/lib/formatters';
-import { Plus, Search, Filter, FileText, Eye, Loader2 } from 'lucide-react';
+import { Plus, Search, Filter, FileText, Eye, Loader2, Copy } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 export default function LicitacoesPage() {
   const { licitacoes, loading, criarLicitacao, atualizarLicitacao, moverColuna } = useSupabaseLicitacoes();
@@ -19,6 +20,7 @@ export default function LicitacoesPage() {
   const [detailOpen, setDetailOpen] = useState(false);
   const [busca, setBusca] = useState('');
   const [filtroStatus, setFiltroStatus] = useState<string>('todos');
+  const [dadosDuplicar, setDadosDuplicar] = useState<Partial<Licitacao> | null>(null);
 
   const filtradas = useMemo(() => {
     return licitacoes.filter((l) => {
@@ -30,6 +32,17 @@ export default function LicitacoesPage() {
       return matchBusca && matchStatus;
     });
   }, [licitacoes, busca, filtroStatus]);
+
+  const handleDuplicar = (lic: Licitacao, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setDadosDuplicar(lic);
+    setModalAberto(true);
+  };
+
+  const handleCloseModal = (open: boolean) => {
+    setModalAberto(open);
+    if (!open) setDadosDuplicar(null);
+  };
 
   return (
     <AppLayout titulo="Licitações" subtitulo="Cadastre e gerencie todos os certames da empresa">
@@ -55,7 +68,7 @@ export default function LicitacoesPage() {
           </Select>
         </div>
 
-        <Button onClick={() => setModalAberto(true)} className="gap-1.5 shadow-md shadow-primary/20 transition-all hover:shadow-lg hover:shadow-primary/30">
+        <Button onClick={() => { setDadosDuplicar(null); setModalAberto(true); }} className="gap-1.5 shadow-md shadow-primary/20 transition-all hover:shadow-lg hover:shadow-primary/30">
           <Plus className="w-4 h-4" /> Nova Licitação
         </Button>
       </div>
@@ -71,7 +84,7 @@ export default function LicitacoesPage() {
                 <th className="text-left text-xs font-semibold text-muted-foreground px-4 py-3">Data</th>
                 <th className="text-right text-xs font-semibold text-muted-foreground px-4 py-3">Valor Ref.</th>
                 <th className="text-center text-xs font-semibold text-muted-foreground px-4 py-3">Status</th>
-                <th className="text-center text-xs font-semibold text-muted-foreground px-4 py-3 w-16">Ações</th>
+                <th className="text-center text-xs font-semibold text-muted-foreground px-4 py-3 w-24">Ações</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border/30">
@@ -95,6 +108,7 @@ export default function LicitacoesPage() {
                     onClick={() => { setDetailLic(lic); setDetailOpen(true); }}>
                     <td className="px-4 py-3">
                       <span className="text-sm font-bold text-foreground">{lic.numeroEdital}</span>
+                      {lic.uasg && <p className="text-[10px] text-muted-foreground">UASG {lic.uasg}</p>}
                     </td>
                     <td className="px-4 py-3 max-w-xs">
                       <p className="text-sm font-semibold text-foreground truncate group-hover:text-primary transition-colors">{lic.orgaoComprador}</p>
@@ -118,10 +132,26 @@ export default function LicitacoesPage() {
                     </td>
                     <td className="px-4 py-3 text-center"><StatusBadge status={lic.status} /></td>
                     <td className="px-4 py-3 text-center">
-                      <button className="p-2 rounded-lg hover:bg-secondary/80 transition-colors"
-                        onClick={(e) => { e.stopPropagation(); setDetailLic(lic); setDetailOpen(true); }}>
-                        <Eye className="w-4 h-4 text-muted-foreground" />
-                      </button>
+                      <div className="flex items-center justify-center gap-0.5">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <button className="p-2 rounded-lg hover:bg-secondary/80 transition-colors"
+                              onClick={(e) => { e.stopPropagation(); setDetailLic(lic); setDetailOpen(true); }}>
+                              <Eye className="w-4 h-4 text-muted-foreground" />
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent>Ver detalhes</TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <button className="p-2 rounded-lg hover:bg-secondary/80 transition-colors"
+                              onClick={(e) => handleDuplicar(lic, e)}>
+                              <Copy className="w-4 h-4 text-muted-foreground" />
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent>Duplicar</TooltipContent>
+                        </Tooltip>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -136,7 +166,7 @@ export default function LicitacoesPage() {
         )}
       </div>
 
-      <NovaLicitacaoModal open={modalAberto} onOpenChange={setModalAberto} onSalvar={criarLicitacao} />
+      <NovaLicitacaoModal open={modalAberto} onOpenChange={handleCloseModal} onSalvar={criarLicitacao} dadosIniciais={dadosDuplicar} />
       <LicitacaoDetailModal licitacao={detailLic} open={detailOpen} onOpenChange={setDetailOpen} onAtualizar={atualizarLicitacao} onMoverColuna={moverColuna} />
     </AppLayout>
   );

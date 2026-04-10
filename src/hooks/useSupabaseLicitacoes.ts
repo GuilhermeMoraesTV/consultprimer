@@ -1,10 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
-import { Licitacao, ColunaKanban, StatusLicitacao, ModalidadeLicitacao, ModoDisputa, PortalDisputa } from '@/types/licitacao';
+import { Licitacao, ColunaKanban, StatusLicitacao, ModalidadeLicitacao, ModoDisputa, PortalDisputa, CriterioJulgamento } from '@/types/licitacao';
 import { toast } from '@/hooks/use-toast';
 
-// Mapeamento coluna → status
 const COLUNA_STATUS_MAP: Record<ColunaKanban, StatusLicitacao> = {
   captacao: 'falta_cadastrar',
   analise: 'em_analise',
@@ -34,6 +33,10 @@ function mapRowToLicitacao(row: any): Licitacao {
     documentosNecessarios: 8,
     empresaId: row.empresa_id,
     criadoEm: row.criado_em,
+    uasg: row.uasg ?? undefined,
+    dataImpugnacao: row.data_impugnacao ?? undefined,
+    criterioJulgamento: row.criterio_julgamento as CriterioJulgamento | undefined,
+    analistaResponsavel: row.analista_responsavel ?? undefined,
   };
 }
 
@@ -59,9 +62,7 @@ export function useSupabaseLicitacoes() {
     setLoading(false);
   }, [user]);
 
-  useEffect(() => {
-    fetchLicitacoes();
-  }, [fetchLicitacoes]);
+  useEffect(() => { fetchLicitacoes(); }, [fetchLicitacoes]);
 
   const moverColuna = async (licitacaoId: string, novaColuna: ColunaKanban) => {
     const lic = licitacoes.find(l => l.id === licitacaoId);
@@ -102,10 +103,13 @@ export function useSupabaseLicitacoes() {
     linkAcesso?: string;
     observacoes?: string;
     colunaKanban?: ColunaKanban;
+    uasg?: string;
+    dataImpugnacao?: string;
+    criterioJulgamento?: CriterioJulgamento;
+    analistaResponsavel?: string;
   }) => {
     if (!user) return null;
 
-    // Get empresa_id
     const { data: empresaData } = await supabase.rpc('get_user_empresa_id', { _user_id: user.id });
 
     if (!empresaData) {
@@ -131,7 +135,11 @@ export function useSupabaseLicitacoes() {
         coluna_kanban: dados.colunaKanban || 'captacao',
         status: COLUNA_STATUS_MAP[dados.colunaKanban || 'captacao'],
         criado_por: user.id,
-      })
+        uasg: dados.uasg || null,
+        data_impugnacao: dados.dataImpugnacao || null,
+        criterio_julgamento: dados.criterioJulgamento || null,
+        analista_responsavel: dados.analistaResponsavel || null,
+      } as any)
       .select()
       .single();
 
