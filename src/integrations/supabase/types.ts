@@ -298,13 +298,54 @@ export type Database = {
           },
         ]
       }
+      itens_licitacao: {
+        Row: {
+          codigo: string | null
+          descricao: string
+          id: string
+          licitacao_id: string
+          quantidade: number | null
+          unidade: string | null
+          valor_unitario: number | null
+        }
+        Insert: {
+          codigo?: string | null
+          descricao: string
+          id?: string
+          licitacao_id: string
+          quantidade?: number | null
+          unidade?: string | null
+          valor_unitario?: number | null
+        }
+        Update: {
+          codigo?: string | null
+          descricao?: string
+          id?: string
+          licitacao_id?: string
+          quantidade?: number | null
+          unidade?: string | null
+          valor_unitario?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "itens_licitacao_licitacao_id_fkey"
+            columns: ["licitacao_id"]
+            isOneToOne: false
+            referencedRelation: "licitacoes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       licitacoes: {
         Row: {
+          analista_responsavel: string | null
           atualizado_em: string | null
           checklist_completo: boolean | null
           coluna_kanban: Database["public"]["Enums"]["coluna_kanban"] | null
           criado_em: string | null
           criado_por: string | null
+          criterio_julgamento: string | null
+          data_impugnacao: string | null
           data_licitacao: string
           empresa_id: string
           hora_licitacao: string
@@ -318,14 +359,18 @@ export type Database = {
           orgao_nome: string
           portal_disputa: Database["public"]["Enums"]["portal_disputa"] | null
           status: Database["public"]["Enums"]["status_licitacao"] | null
+          uasg: string | null
           valor_referencia: number | null
         }
         Insert: {
+          analista_responsavel?: string | null
           atualizado_em?: string | null
           checklist_completo?: boolean | null
           coluna_kanban?: Database["public"]["Enums"]["coluna_kanban"] | null
           criado_em?: string | null
           criado_por?: string | null
+          criterio_julgamento?: string | null
+          data_impugnacao?: string | null
           data_licitacao: string
           empresa_id: string
           hora_licitacao: string
@@ -339,14 +384,18 @@ export type Database = {
           orgao_nome: string
           portal_disputa?: Database["public"]["Enums"]["portal_disputa"] | null
           status?: Database["public"]["Enums"]["status_licitacao"] | null
+          uasg?: string | null
           valor_referencia?: number | null
         }
         Update: {
+          analista_responsavel?: string | null
           atualizado_em?: string | null
           checklist_completo?: boolean | null
           coluna_kanban?: Database["public"]["Enums"]["coluna_kanban"] | null
           criado_em?: string | null
           criado_por?: string | null
+          criterio_julgamento?: string | null
+          data_impugnacao?: string | null
           data_licitacao?: string
           empresa_id?: string
           hora_licitacao?: string
@@ -360,6 +409,7 @@ export type Database = {
           orgao_nome?: string
           portal_disputa?: Database["public"]["Enums"]["portal_disputa"] | null
           status?: Database["public"]["Enums"]["status_licitacao"] | null
+          uasg?: string | null
           valor_referencia?: number | null
         }
         Relationships: [

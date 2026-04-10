@@ -36,6 +36,17 @@ export type PortalDisputa =
   | 'bll'
   | 'outro';
 
+/** Critério de julgamento */
+export type CriterioJulgamento = 'menor_preco' | 'maior_desconto' | 'melhor_tecnica' | 'tecnica_preco';
+
+/** Labels critério de julgamento */
+export const CRITERIO_JULGAMENTO_LABELS: Record<CriterioJulgamento, string> = {
+  menor_preco: 'Menor Preço',
+  maior_desconto: 'Maior Desconto',
+  melhor_tecnica: 'Melhor Técnica',
+  tecnica_preco: 'Técnica e Preço',
+};
+
 /** Licitação completa */
 export interface Licitacao {
   id: string;
@@ -57,6 +68,10 @@ export interface Licitacao {
   documentosNecessarios: number;
   empresaId: string;
   criadoEm: string;
+  uasg?: string;
+  dataImpugnacao?: string;
+  criterioJulgamento?: CriterioJulgamento;
+  analistaResponsavel?: string;
 }
 
 /** Evento do calendário */
